@@ -1,0 +1,12 @@
+{
+  "articles": [
+    {
+      "path": "index.html",
+      "title": "Portfolio",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-02-17T11:14:40-03:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}

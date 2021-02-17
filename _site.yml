@@ -1,8 +1,8 @@
 name: "."
-title: "&quot;Portfolio&quot;"
+title: "Portfolio"
 description: |
-  &quot;Portfolio&quot;
-output_dir: "_site"
+  My projects
+output_dir: "docs"
 navbar:
   right:
     - text: "Home"
