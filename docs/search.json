@@ -2,10 +2,10 @@
   "articles": [
     {
       "path": "index.html",
-      "title": "Portfolio",
+      "title": "Gabriel's portfolio",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-02-17T11:21:33-03:00"
+      "last_modified": "2021-02-17T11:48:34-03:00"
     }
   ],
   "collections": ["posts/posts.json"]
