@@ -1,0 +1,83 @@
+---
+title: "Visualizing Maps Interactively"
+description: |
+  My first shiny app!
+author: "Gabriel de Freitas Pereira"
+date: 02-18-2021
+output:
+    distill::distill_article:
+      self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+\  
+
+\  
+<div style="text-align: center">  
+## Visualizing maps in a simple way ##
+</div>
+\ 
+  
+
+\  
+
+#### __Introduction__ 
+
+\  
+\  
+
+<div class=text-justify>
+
+  First of all, what made me to get started and learn shiny was the facility provided by the app
+for visualization. This is quite useful when you've got an amount of data to visualize and compare.
+Of course GIS softwares are enough to do this job! But it's not easy to handle and share a set of maps
+with others keeping the interactivity from them. So that's why I was searching how to make it properly and everyone enjoy beautiful graphics or maps to analyse the data. I think this is the best way to deal with the results, always is good to simplify the visualization before study it further theorically.
+
+  Well the subject of study are the results from a prediction made by ensemble modelling to find out
+the priority areas for conservation of _Bertholletia excelsa_ usign different filters (environmental and
+geographical) based on 15 variables defined as the main variables for prediction by Daiana tourne et. al 2019 on her doctorate degree using principal component analyses (PCA) combined with expert analyses.
+
+  The main objective is directly correlated with the climatic analyses and soon we will combine with genetic analyses. These results presented here are considering the actual conditions from different databases as Worldclim, USGS, etc. More details will be posted in a formal article in the future when it get ready.
+Is important to say that in this research I have got 3 co-authors from [Bioversity International](https://www.bioversityinternational.org/) which are: Evert Thomas, Tobias Fremout and Viviana Ceccarelli. Besides them Daiana also is helping in this project as well as my adviser Karina Martins.
+
+  The shiny app has a good and organized structure quite easy to understand which helped me a lot to
+generate the app. However I didn't use packages as [Golem](https://cran.r-project.org/web/packages/golem/golem.pdf) to provide a code cleaner so it was a robust script which I have written without using modules, because although the app has a clear structure and easy to apply modules I wasn't familiar with it.
+
+
+</div>
+
+\          
+\  
+
+#### __Exploring the maps__        
+
+\  
+\  
+
+  The app has 6 tabs with different filters and content:
+  
+1. Suitability - Environmental filtering
+1. Count - Environmental filtering
+1. Binary - Environmental filtering
+1. Suitability - Geographical filtering
+1. Count - Geographical filtering
+1. Binary - Geographical filtering   
+
+
+```{r}
+video_path  <- "C:/Users/RanulfoGabriel/Desktop"
+video_files <- list.files(video_path,
+                         pattern = "\\.mp4$",
+                         recursive = TRUE,
+                         all.files = FALSE,
+                         full.names = TRUE)
+```
+
+<iframe width="720" height="480" src="`r video_files[1]`" align="middle" frameborder="0" allowfullscreen></iframe>
+
+
+
+
