@@ -67,17 +67,8 @@ generate the app. However I didn't use packages as [Golem](https://cran.r-projec
 1. Binary - Geographical filtering   
 
 
-```{r}
-video_path  <- "C:/Users/RanulfoGabriel/Desktop"
-video_files <- list.files(video_path,
-                         pattern = "\\.mp4$",
-                         recursive = TRUE,
-                         all.files = FALSE,
-                         full.names = TRUE)
-```
-
-<iframe width="720" height="480" src="`r video_files[1]`" align="middle" frameborder="0" allowfullscreen></iframe>
-
+![](https://youtu.be/zNzZ1PfUDNk)
+![](https://www.youtube.com/watch?v=zNzZ1PfUDNk)
 
 
 
