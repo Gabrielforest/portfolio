@@ -1,7 +1,9 @@
 ---
 title: "Visualizing Maps Interactively"
 description: |
-  My first shiny app!
+  My first shiny app! 
+  Using the results from ensemble models of my scientific initiation
+  to define the priority areas for conservation of Brazil nut  
 preview: preview: https://github.com/Gabrielforest/portfolio/blob/main/previewblog.PNG?raw=true
 author: "Gabriel de Freitas Pereira"
 date: 02-18-2021
