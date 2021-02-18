@@ -66,11 +66,8 @@ generate the app. However I didn't use packages as [Golem](https://cran.r-projec
 1. Count - Geographical filtering
 1. Binary - Geographical filtering   
 
-```{r}
-path <- "C:/Users/RanulfoGabriel/Desktop/videoeditor.mp4"
-```
 
-<iframe width="854" height= "380" src="`r path`" type="video/mp4" frameboarder="0" allowfullscreen></iframe>
+<iframe width="854" height= "380" src="https://www.youtube.com/embed/odLfuomUTMw" frameboarder="0" allowfullscreen></iframe>
 
 
 
