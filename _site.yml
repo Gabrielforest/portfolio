@@ -2,6 +2,7 @@ name: "."
 title: "Portfolio"
 description: |
   My projects
+preview: https://github.com/Gabrielforest/portfolio/blob/main/previewblog.PNG?raw=true
 output_dir: "docs"
 navbar:
   right:
