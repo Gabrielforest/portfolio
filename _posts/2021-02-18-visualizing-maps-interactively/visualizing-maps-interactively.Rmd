@@ -67,8 +67,8 @@ generate the app. However I didn't use packages as [Golem](https://cran.r-projec
 1. Binary - Geographical filtering   
 
 
-![](https://youtu.be/zNzZ1PfUDNk)
-![](https://www.youtube.com/watch?v=zNzZ1PfUDNk)
+<iframe width="854" height= "480" src="videoeditor.mp4" type="video/mp4" frameboarder="0" allowfullscreen></iframe>
+
 
 
 
