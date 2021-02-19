@@ -2413,7 +2413,7 @@ d-appendix d-footnote-list a.footnote-backlink {
 </div>
 <p> </p>
 <p> </p>
-<h4 id="introduction"><strong>Introduction</strong></h4>
+<h3 id="introduction"><strong>Introduction</strong></h3>
 <p>   </p>
 <div class="text-justify">
 <p>First of all, what made me to get started and learn shiny was the facility provided by the app for visualization. This is quite useful when you’ve got an amount of data to visualize and compare. Of course GIS softwares are enough to do this job! But it’s not easy to handle and share a set of maps keeping the interactivity from them so that’s why I was searching how to make it properly. And everyone that I know would rather enjoy beautiful interactives graphics or maps to analyse the data. I think this is the best way to deal with the results, always is good to simplify the visualization before study it further theorically.</p>
@@ -2423,9 +2423,9 @@ d-appendix d-footnote-list a.footnote-backlink {
 </div>
 <p> <br />
  </p>
-<h4 id="exploring-the-maps"><strong>Exploring the maps</strong></h4>
+<h3 id="exploring-the-maps"><strong>Exploring the maps</strong></h3>
 <p>   </p>
-<p>The app has 6 tabs with different filters and content:</p>
+<p>The app has 6 tabs with different filters and content as you can see below:</p>
 <ol type="1">
 <li>Suitability - Environmental filtering</li>
 <li>Count - Environmental filtering</li>
@@ -2436,6 +2436,11 @@ d-appendix d-footnote-list a.footnote-backlink {
 </ol>
 <iframe width="854" height="380" src="https://www.youtube.com/embed/odLfuomUTMw" frameboarder="0" allowfullscreen>
 </iframe>
+<p>So as I said before the model is an ensemble of different algorithms (MAXENT, RF, GLMNET, etc). Each of these algorithms produces a different presence map. The suitability model show us the probability (0-1000) to get the presence of the species occurring at the site assuming a specific threshold based on model filter. The count map indicates how many algorithms predict suitability in a point, from 0 algorithms to 8 algorithms which is the number of algorithms in the ensemble and last but not least the binary map show us absence and presence (0-1) also considering the same threshold for suitability map.    </p>
+<h4 id="environmental-filtering"><strong>Environmental filtering</strong></h4>
+<h4 id="geographical-filtering"><strong>Geographical filtering</strong></h4>
+<h3 id="biggest-challenge-in-the-code"><strong>Biggest challenge in the code</strong></h3>
+<p>I will leave <a href="https://bideco.shinyapps.io/leaflet_active/">here</a> the Shiny app if you would like to take a look further.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

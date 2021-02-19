@@ -4,7 +4,7 @@ description: |
   My first shiny app! 
   Using the results from ensemble models of my scientific initiation
   to define the priority areas for conservation of Brazil nut  
-preview: preview: https://github.com/Gabrielforest/portfolio/blob/main/previewblog.PNG?raw=true
+preview: https://github.com/Gabrielforest/portfolio/blob/main/previewblog.PNG?raw=true
 author: "Gabriel de Freitas Pereira"
 date: 02-18-2021
 output:
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 \  
 
-#### __Introduction__ 
+### __Introduction__ 
 
 \  
 \  
@@ -55,12 +55,12 @@ generate the app. However I didn't use packages as [Golem](https://cran.r-projec
 \          
 \  
 
-#### __Exploring the maps__        
+### __Exploring the maps__        
 
 \  
 \  
 
-  The app has 6 tabs with different filters and content:
+  The app has 6 tabs with different filters and content as you can see below:
   
 1. Suitability - Environmental filtering
 1. Count - Environmental filtering
@@ -69,9 +69,17 @@ generate the app. However I didn't use packages as [Golem](https://cran.r-projec
 1. Count - Geographical filtering
 1. Binary - Geographical filtering   
 
-
 <iframe width="854" height= "380" src="https://www.youtube.com/embed/odLfuomUTMw" frameboarder="0" allowfullscreen></iframe>
 
+So as I said before the model is an ensemble of different algorithms (MAXENT, RF, GLMNET, etc). Each of these algorithms produces a different presence map. The suitability model show us the probability (0-1000) to get the presence of the species occurring at the site assuming a specific threshold based on model filter. The count map indicates how many algorithms predict suitability in a point, from 0 algorithms to 8 algorithms which is the number of algorithms in the ensemble and last but not least the binary map show us
+absence and presence (0-1) also considering the same threshold for suitability map.
+\  
+\  
 
+#### __Environmental filtering__
 
+#### __Geographical filtering__
 
+### __Biggest challenge in the code__
+
+I will leave [here]( https://bideco.shinyapps.io/leaflet_active/) the Shiny app if you would like to take a look further.
