@@ -1,7 +1,7 @@
 ---
 title: "About this blog"
 description: |
-  Some additional details about the blog
+  This blog is a portfolio about my studies in R, mainly on data science.
 ---
 
 ```{r setup, include=FALSE}
