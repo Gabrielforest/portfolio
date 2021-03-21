@@ -32,25 +32,30 @@ knitr::opts_chunk$set(echo = FALSE)
 \  
 \  
 
-<div class=text-justify>
-
+\  
   First of all, what made me get started and learn shiny was the facility provided by the app
 for visualization. This is quite useful when you've got an amount of data to visualize and compare.
 Of course any GIS software is enough to do this job! But it's not easy to handle and share a set of maps
 keeping the interactivity from them so that's why I was searching how to make it properly. And everyone that I know would rather enjoy beautiful interactive graphics or maps to analyse the data. I think this is the best way to deal with the results, it is always good to simplify the visualization before studying it further theoretically.
+\  
 
+\  
   Well, the maps analysed were results from a prediction made by ensemble models to find out
 the priority areas for conservation of _Bertholletia excelsa_ using different filters (environmental and
 geographical) based on 15 variables defined as the best in predicting the suitability of Brazil nut by Daiana tourne et. al 2019 on her doctorate degree using principal component analyses (PCA) combined with expert analyses.
+\ 
 
+\  
   Therefore the main objective is directly correlated with the climatic analyses and soon we will combine with genetic analyses. These results presented here are considering the actual conditions using the variables from different databases as Worldclim, USGS, etc. More details about the research will be posted in a formal article in the future when it gets ready.
 Is important to say that in this research I have got 3 co-authors from [Bioversity International](https://www.bioversityinternational.org/) which are: Evert Thomas, Tobias Fremout and Viviana Ceccarelli. Besides them Daiana also is helping in this project as well as my advisor Karina Martins.
+\  
 
+\  
   The shiny app has a good and organized structure quite easy to understand which helped me a lot to
 generate the app. However I didn't use packages as [Golem](https://cran.r-project.org/web/packages/golem/golem.pdf) to provide a code cleaner so it was a robust script which I have written without using modules, because although the app has a clear structure and easy to apply modules I wasn't familiar with it.
 
 
-</div>
+
 
 \          
 \  
@@ -60,6 +65,7 @@ generate the app. However I didn't use packages as [Golem](https://cran.r-projec
 \  
 \  
 
+\  
   The app has 6 tabs with different filters and content as you can see below:
   
 1. Suitability - Environmental filtering
@@ -70,7 +76,7 @@ generate the app. However I didn't use packages as [Golem](https://cran.r-projec
 1. Binary - Geographical filtering   
 
 <iframe width="854" height= "380" src="https://www.youtube.com/embed/odLfuomUTMw" frameboarder="0" allowfullscreen></iframe>
-
+\  
 So as I said before the model is an ensemble of different algorithms (MAXENT, RF, GLMNET, etc). Each of these algorithms produces a different presence map. The suitability map shows us the probability (0-1000) to get the presence of the species occurring at the site assuming a specific threshold based on the model filter which could be Environmental or Geographical. The count map indicates how many algorithms predict suitable a point, from 0 algorithms to 8 algorithms which is the maximum number of algorithms which predict suitable the same grid from 10 algorithms used in the ensemble initially. And last but not least the binary map shows us
 absence and presence (0-1) also considering the same threshold for suitability map.
 \  
