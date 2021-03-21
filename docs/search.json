@@ -5,15 +5,15 @@
       "title": "About this blog",
       "description": "This blog is a portfolio about my studies in R, mainly on data science.",
       "author": [],
-      "contents": "\r\nHi!\r\n \r\n  My name is Gabriel de Freitas Pereira and I am a Forest Engineering student from UFSCar (Federal University of São Carlos) and I started to study it at 2018. Since there I have been dedicating my studies on conservation and at 2019 I started to write a project to find out the priority areas for conservation of Brazil nut trees with climate and genetics analyses. At 2020 the project was approved and I started to study R language, which is quite cool and it brought to me the area that I was looking for which is: environmental data science.\r\n  So the main goal for this blog is to keep myself studying it and posting things about data science regarding my forest studies.\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-03-21T17:21:38-03:00"
+      "contents": "\r\nHi!\r\n \r\n  My name is Gabriel de Freitas Pereira and I am a Forest Engineering student from UFSCar (Federal University of São Carlos) and I started to study it at 2018. Since there I have been dedicating my studies on conservation and at 2019 I started to write a project to find out the priority areas for conservation of Brazil nut trees involving genetic and climatic analyzes. At beginning of 2020 the project was approved and I started to study R language, which is quite cool and it brought to me the area that I was looking for which is: environmental data science.\r\n  So the main goal for this blog is to keep myself studying it and posting things about data science regarding my forest studies.\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-03-21T19:22:41-03:00"
     },
     {
       "path": "index.html",
       "title": "Gabriel's portfolio",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-02-22T02:11:45-03:00"
+      "last_modified": "2021-03-21T19:18:08-03:00"
     }
   ],
   "collections": ["posts/posts.json"]
