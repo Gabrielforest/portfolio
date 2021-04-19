@@ -45,7 +45,6 @@ d-byline {
 .d-contents {
   --heading-size:    18px;
   --contents-size:   13px;
-  --text-align:   justify;
 }
 
 /*-- ARTICLE APPENDIX --*/
@@ -76,4 +75,5 @@ d-appendix {
 
 /*-- Additional custom styles --*/
 /* Add any additional CSS rules below                      */
+
 

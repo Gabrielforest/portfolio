@@ -1,7 +1,7 @@
 ---
 title: "Predicting NA values"
 description: |
-  A short description of the post.
+  Analising forest inventory data through models 
 author:
   - name: Gabriel de Freitas Pereira
     url: {}
@@ -16,8 +16,5 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
-
-Learn more about using Distill at <https://rstudio.github.io/distill>.
 
 

@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-04-18-predicting-na-values/",
+    "title": "Predicting NA values",
+    "description": "Analising forest inventory data through models",
+    "author": [
+      {
+        "name": "Gabriel de Freitas Pereira",
+        "url": {}
+      }
+    ],
+    "date": "2021-04-18",
+    "categories": [],
+    "contents": "\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-04-18T21:40:36-03:00",
+    "input_file": "predicting-na-values.utf8.md"
+  },
+  {
     "path": "posts/2021-02-18-visualizing-maps-interactively/",
     "title": "Visualizing Maps Interactively",
     "description": "My first shiny app! \nUsing the results from ensemble models of my scientific initiation\nto define the priority areas for conservation of Brazil nut",
