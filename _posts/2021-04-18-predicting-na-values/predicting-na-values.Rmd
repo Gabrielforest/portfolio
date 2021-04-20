@@ -1,7 +1,7 @@
 ---
-title: "Predicting NA values"
+title: "Predicting Missing Values"
 description: |
-  Analising forest inventory data through models 
+  Analising forest inventory data and predicting NAs through least squares regression model
 author:
   - name: Gabriel de Freitas Pereira
     url: {}
@@ -14,7 +14,199 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+
 ```
 
+
+\  
+The sistematic collection of data was carried out between 2017 and 2018 at Três Lagoas, 
+which is a city from Mato Grosso do Sul state. The area has an extent of 1226 acres of *Eucalyptus grandis* W. Hill ex Maiden x *Eucalyptus urophylla* S. T. Blake 
+clonal culture with mean age of 2.88 years. 
+
+
+```{r echo = FALSE, caption}
+fustes <- read.csv2("fustes.csv")
+fustes_6 <- fustes %>% 
+  select(area, espacamento, matgen,
+         idade, dap, ht) 
+
+names(fustes_6) <- c("area(ha)", "spacing", "genetic material",
+                     "age", "DBH", "heigth")  
+
+```
+    
+# Exploring the data
+\  
+\ 
+
+\  
+Here we can take a look on the first 6 rows from the data frame which has 3313 obs. of 6 variables:
+
+```{r, echo = FALSE}
+knitr::kable(head(fustes_6), booktabs= TRUE) %>% 
+  kable_styling(position = 'left', full_width = F)
+
+```
+\  
+\   
+
+  
+Checking whether we have got NAs or not:
+
+```{r, echo = TRUE, background= "blue"}
+sum(is.na(fustes_6$DBH))
+
+```
+\  
+\  
+
+\  
+As we can see there are 134 NAs from DBH values that probably represent dead trees, that can be replanted in the future for 
+next rotation. But just to be sure about it, let's take a look on the age (or height)! Because if
+those NAs values also could be trees too much young for DBH.
+
+```{r, echo = TRUE}
+min(fustes_6$age)
+
+```
+\ 
+\  
+
+
+\  
+The minimum age turns out the idea of NAs are representing dead trees. 
+Therefore if we would like to get a second rotation forestry would be good to understand the behavior of trees under similar conditions to do future economic analysis. 
+So what would we expect from these trees if they were alive?
+\  
+
+\  
+We can make an approximation through least squares regression model based on our data and variables to find out their diameter at breast height!
+And for that we need to pre-process the data... 
+\  
+\  
+
+# Data pre-processing 
+\  
+\  
+
+Checking whether we have got outliers on DBH or not:
+
+```{r, echo = FALSE}
+boxplot(fustes_6$DBH, main = "Diameter at Breast Height")
+
+```
+
+\  
+As we can see, there are outliers on the data that we want to 
+remove because it's not good for least squares regression model.
+The result bellow show us the lower extreme, first quartile, median, third quartile and
+the upper extreme respectively. 
+
+```{r, echo = TRUE}
+boxplot.stats(fustes_6$DBH)
+
+```
+\  
+\  
+
+  
+Automating the process to get the extreme values:  
+
+```{r, echo = TRUE}
+upper_whisker <- boxplot.stats(fustes_6$DBH)$stats[5]
+lower_whisker <- boxplot.stats(fustes_6$DBH)$stats[1]
+
+```
+\  
+\  
+
+  
+Of course after the upper extreme we've got the outliers and before the first whisker as well. And both we are going to remove this way:
+
+```{r,echo = TRUE}
+
+outlier_filter_upper <- fustes_6$DBH < upper_whisker 
+outlier_filter_lower <- fustes_6$DBH > lower_whisker 
+
+#filtering outliers: 
+outlier_filter <- fustes_6[outlier_filter_lower & outlier_filter_upper,]
+
+```
+\ 
+\  
+
+  
+Now we need to check the class from the variables and if necessary make some changes 
+
+```{r, echo = TRUE}
+str(fustes_6)
+
+```
+\ 
+\  
+
+  
+Categorical casting for the variables that we will use to predict
+
+```{r, echo = TRUE}
+fustes_6$`genetic material` <- as.factor(fustes_6$`genetic material`)
+```
+\ 
+\  
+  
+# Building the model
+\  
+\  
+  
+Our formula has the following format: y = b0 + b1X
+
+```{r, echo = TRUE}
+dbh_equation <- "DBH ~ `genetic material` + age"
+
+```
+\  
+\  
+  
+  
+Least squares regression:
+
+```{r, echo = TRUE}
+dbh_model <- lm(
+  formula = dbh_equation, 
+  data = fustes_6[outlier_filter_lower & outlier_filter_upper,]
+)
+
+```
+\  
+\ 
+
+  
+Now we are going to isolate the NA values (that we want to predict) and 
+all the columns that we are using to get DBH values:
+
+```{r, echo = TRUE}
+dbh_rows <- fustes_6[is.na(fustes_6$DBH), c("genetic material","age")]
+```
+\  
+\ 
+ 
+  
+The last step is to predict and replace those missing values
+
+```{r, echo = TRUE}
+dbh_predictions <- predict(dbh_model, newdata = dbh_rows)
+dbh_predictions
+
+```
+
+Filling the data with predicted values:
+
+```{r, echo = TRUE}
+fustes_6[is.na(fustes_6$DBH), "DBH"] <- dbh_predictions
+
+```
 
 
