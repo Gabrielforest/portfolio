@@ -65,7 +65,7 @@ sum(is.na(fustes_6$DBH))
 
 \  
 As we can see there are 134 NAs from DBH values that probably represent dead trees, that can be replanted in the future for 
-next rotation. But just to be sure about it, let's take a look on the age (or height)! Because if
+next rotation. But just to be sure about it, let's take a look on the age! Because 
 those NAs values also could be trees too much young for DBH.
 
 ```{r, echo = TRUE}
@@ -106,7 +106,7 @@ The result bellow show us the lower extreme, first quartile, median, third quart
 the upper extreme respectively. 
 
 ```{r, echo = TRUE}
-boxplot.stats(fustes_6$DBH)
+boxplot.stats(fustes_6$DBH)$stats
 
 ```
 \  
@@ -139,7 +139,7 @@ outlier_filter <- fustes_6[outlier_filter_lower & outlier_filter_upper,]
 \  
 
   
-Now we need to check the class from the variables and if necessary make some changes 
+Now we need to check the class from the variables and if necessary make some changes... 
 
 ```{r, echo = TRUE}
 str(fustes_6)
@@ -149,7 +149,7 @@ str(fustes_6)
 \  
 
   
-Categorical casting for the variables that we will use to predict
+Categorical casting variables that we will use to predict:
 
 ```{r, echo = TRUE}
 fustes_6$`genetic material` <- as.factor(fustes_6$`genetic material`)
@@ -161,7 +161,8 @@ fustes_6$`genetic material` <- as.factor(fustes_6$`genetic material`)
 \  
 \  
   
-Our formula has the following format: y = b0 + b1X
+Our formula has the following format: 
+$\hat{y}=\hat{\beta_0}+\hat{\beta_1}X$
 
 ```{r, echo = TRUE}
 dbh_equation <- "DBH ~ `genetic material` + age"
@@ -171,12 +172,15 @@ dbh_equation <- "DBH ~ `genetic material` + age"
 \  
   
   
-Least squares regression:
+Regression model:
 
 ```{r, echo = TRUE}
+#removing NAs to make the model:
+fustes_model <- na.omit(fustes_6)
+
 dbh_model <- lm(
   formula = dbh_equation, 
-  data = fustes_6[outlier_filter_lower & outlier_filter_upper,]
+  data = fustes_model[outlier_filter_lower & outlier_filter_upper,]
 )
 
 ```
@@ -194,7 +198,7 @@ dbh_rows <- fustes_6[is.na(fustes_6$DBH), c("genetic material","age")]
 \ 
  
   
-The last step is to predict and replace those missing values
+The last step is to predict and replace those missing values:
 
 ```{r, echo = TRUE}
 dbh_predictions <- predict(dbh_model, newdata = dbh_rows)
