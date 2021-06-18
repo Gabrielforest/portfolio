@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["fustes.csv","predicting-na-values_files/anchor-4.2.2/anchor.min.js","predicting-na-values_files/bowser-1.9.3/bowser.min.js","predicting-na-values_files/distill-2.2.21/template.v2.js","predicting-na-values_files/figure-html5/unnamed-chunk-2-1.png","predicting-na-values_files/figure-html5/unnamed-chunk-4-1.png","predicting-na-values_files/jquery-1.11.3/jquery.min.js","predicting-na-values_files/kePrint-0.0.1/kePrint.js","predicting-na-values_files/lightable-0.0.1/lightable.css","predicting-na-values_files/popper-2.6.0/popper.min.js","predicting-na-values_files/tippy-6.2.7/tippy-bundle.umd.min.js","predicting-na-values_files/tippy-6.2.7/tippy-light-border.css","predicting-na-values_files/tippy-6.2.7/tippy.css","predicting-na-values_files/tippy-6.2.7/tippy.umd.min.js","predicting-na-values_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["fustes.csv","predicting-na-values_files/anchor-4.2.2/anchor.min.js","predicting-na-values_files/bowser-1.9.3/bowser.min.js","predicting-na-values_files/distill-2.2.21/template.v2.js","predicting-na-values_files/figure-html5/unnamed-chunk-11-1.png","predicting-na-values_files/figure-html5/unnamed-chunk-2-1.png","predicting-na-values_files/figure-html5/unnamed-chunk-4-1.png","predicting-na-values_files/jquery-1.11.3/jquery.min.js","predicting-na-values_files/kePrint-0.0.1/kePrint.js","predicting-na-values_files/lightable-0.0.1/lightable.css","predicting-na-values_files/popper-2.6.0/popper.min.js","predicting-na-values_files/tippy-6.2.7/tippy-bundle.umd.min.js","predicting-na-values_files/tippy-6.2.7/tippy-light-border.css","predicting-na-values_files/tippy-6.2.7/tippy.css","predicting-na-values_files/tippy-6.2.7/tippy.umd.min.js","predicting-na-values_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2648,12 +2648,17 @@ heigth
 <p>   </p>
 <h1 id="building-the-model">Building the model</h1>
 <p>   </p>
-<p>Our formula has the following format: <span class="math inline">\(\hat{y}=\hat{\beta_0}+\hat{\beta_1}X\)</span></p>
+<p>Our formula has the following format: <span class="math inline">\(\hat{y}=\hat{\beta_0}+\hat{\beta_1}X_1+\hat{\beta_2}X_2\)</span></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dbh_equation</span> <span class='op'>&lt;-</span> <span class='st'>"DBH ~ `genetic material` + age"</span>
 </code></pre>
 </div>
+</div>
+<p>   </p>
+<p>Plotting these variables:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="predicting-na-values_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
 </div>
 <p>   </p>
 <p>Regression model:</p>
@@ -2666,9 +2671,37 @@ heigth
   formula <span class='op'>=</span> <span class='va'>dbh_equation</span>, 
   data <span class='op'>=</span> <span class='va'>fustes_model</span><span class='op'>[</span><span class='va'>outlier_filter_lower</span> <span class='op'>&amp;</span> <span class='va'>outlier_filter_upper</span>,<span class='op'>]</span>
 <span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>dbh_model</span><span class='op'>)</span>
 </code></pre>
 </div>
+<pre><code>
+Call:
+lm(formula = dbh_equation, data = fustes_model[outlier_filter_lower &amp; 
+    outlier_filter_upper, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.6626 -0.7964  0.1341  1.0160  6.8762 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)           3.87366    2.40738   1.609 0.107708    
+`genetic material`12 -0.52911    0.11485  -4.607 4.26e-06 ***
+`genetic material`19  0.12014    0.17866   0.672 0.501359    
+`genetic material`35 -0.20092    0.08401  -2.392 0.016838 *  
+`genetic material`60 -0.26753    0.09896  -2.703 0.006905 ** 
+age                   3.01675    0.82678   3.649 0.000268 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.619 on 2912 degrees of freedom
+  (264 observations deleted due to missingness)
+Multiple R-squared:  0.02809,   Adjusted R-squared:  0.02643 
+F-statistic: 16.84 on 5 and 2912 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
+<p>   </p>
+<p>Therefore, as we could see above the age and genetic material are going to be useful variables on the predictions of DBH through this model!</p>
 <p>   </p>
 <p>Now we are going to isolate the NA values (that we want to predict) and all the columns that we are using to get DBH values:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2733,7 +2766,7 @@ heigth
 </code></pre>
 </div>
 </div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

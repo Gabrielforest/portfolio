@@ -162,7 +162,7 @@ fustes_6$`genetic material` <- as.factor(fustes_6$`genetic material`)
 \  
   
 Our formula has the following format: 
-$\hat{y}=\hat{\beta_0}+\hat{\beta_1}X$
+$\hat{y}=\hat{\beta_0}+\hat{\beta_1}X_1+\hat{\beta_2}X_2$
 
 ```{r, echo = TRUE}
 dbh_equation <- "DBH ~ `genetic material` + age"
@@ -170,7 +170,21 @@ dbh_equation <- "DBH ~ `genetic material` + age"
 ```
 \  
 \  
-  
+
+Plotting these variables:
+
+```{r}
+
+par(mfrow = c(1, 2))
+
+plot(fustes_6$DBH~fustes_6$`genetic material`, xlab = "Genetic material", ylab = "Diameter at Breast Height")
+
+plot(fustes_6$DBH~fustes_6$age, xlab = "Age", ylab = "Diameter at Breast Height")
+
+```
+\  
+\  
+
   
 Regression model:
 
@@ -183,7 +197,13 @@ dbh_model <- lm(
   data = fustes_model[outlier_filter_lower & outlier_filter_upper,]
 )
 
+summary(dbh_model)
 ```
+\  
+\  
+
+Therefore, as we could see above the age and genetic material are going to be useful variables on the predictions of DBH through this model! 
+
 \  
 \ 
 
