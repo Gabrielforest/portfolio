@@ -20,9 +20,12 @@ library(dplyr)
 
 ```
 
+# Introduction
+\  
+\  
 
 \  
-The sistematic collection of data was carried out between 2017 and 2018 at Três Lagoas, 
+This data was provided by my dendrometry teacher and it is the result of a sistematic collection of data that was carried out between 2017 and 2018 at Três Lagoas, 
 which is a city from Mato Grosso do Sul state. The area has an extent of 1226 acres of *Eucalyptus grandis* W. Hill ex Maiden x *Eucalyptus urophylla* S. T. Blake 
 clonal culture with mean age of 2.88 years. 
 
