@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-07-24-gas-emission-dashboard/",
+    "title": "BR - Gas Emission Dashboard",
+    "description": "My first dashboard on Power BI! \nUsing a query of gases emission data from [basedosdados](https://basedosdados.org/) to visualize the situation of several states",
+    "author": [
+      {
+        "name": "Gabriel de Freitas Pereira",
+        "url": {}
+      }
+    ],
+    "date": "2021-07-24",
+    "categories": [],
+    "contents": "\r\n \r\n \r\n\r\nVisualizing data in a simple way\r\n\r\n \r\n \r\nIntroduction\r\n   \r\n \r\n \r\n \r\nExploring the dashboard\r\n   \r\n \r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "https://github.com/Gabrielforest/portfolio/blob/main/dash_img.PNG?raw=true",
+    "last_modified": "2021-07-24T01:42:34-03:00",
+    "input_file": "gas-emission-dashboard.knit.md"
+  },
+  {
     "path": "posts/2021-04-18-predicting-na-values/",
     "title": "Predicting Missing Values",
     "description": "Analising forest inventory data and predicting NAs through least squares regression model",

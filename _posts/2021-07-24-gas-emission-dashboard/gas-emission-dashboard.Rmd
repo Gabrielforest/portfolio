@@ -1,0 +1,53 @@
+---
+title: "BR - Gas Emission Dashboard"
+description: |
+  My first dashboard on Power BI! 
+  Using a query of gases emission data from [basedosdados](https://basedosdados.org/) to visualize the situation of several states
+author:
+  - name: Gabriel de Freitas Pereira
+    url: {}
+preview: https://github.com/Gabrielforest/portfolio/blob/main/dash_img.PNG?raw=true
+date: 07-24-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+\  
+
+\  
+<div style="text-align: center">  
+## Visualizing data in a simple way ##
+</div>
+\ 
+  
+
+\  
+
+### __Introduction__ 
+
+\  
+\  
+
+\  
+
+
+
+\          
+\  
+
+### __Exploring the dashboard__        
+
+\  
+\  
+
+\  
+
+<iframe width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiZWIxZDA4NzEtYmZmOC00YzIxLTg0NGUtYjAyNzBkZTY0YmEzIiwidCI6ImVmOWQ2ZTcxLTY3N2QtNDU3My04ZGExLTg1YzBhYzlhY2U2YiJ9" frameborder="0" allowFullScreen="true"></iframe>
+
+
+
