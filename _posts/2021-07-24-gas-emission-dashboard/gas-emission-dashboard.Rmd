@@ -2,12 +2,12 @@
 title: "BR - Gas Emission Dashboard"
 description: |
   My first dashboard on Power BI! 
-  Using a query of gases emission data from [basedosdados](https://basedosdados.org/) to visualize the situation of several states
+  Using a query of gas emission dataset from (https://basedosdados.org/) to visualize the situation of several states for 2018-2019
 author:
   - name: Gabriel de Freitas Pereira
     url: {}
 preview: https://github.com/Gabrielforest/portfolio/blob/main/dash_img.PNG?raw=true
-date: 07-24-2021
+date: 07-25-2021
 output:
   distill::distill_article:
     self_contained: false
@@ -21,33 +21,210 @@ knitr::opts_chunk$set(echo = FALSE)
 
 \  
 <div style="text-align: center">  
-## Visualizing data in a simple way ##
+## Querying and visualizing data ##
 </div>
 \ 
   
+\  
+
+# Introduction 
+
+\ 
+
+\  
+Currently I am on vacation from university so I've started my studies on SQL through SQL Server desktop. 
+After the beginning learning process, when I learned the structure to create databases and became myself able to make some queries, I decided to make a project with real data instead just working with simple databases created by my own. Besides that, I tried to gather both beginner knowledges of SQL and Power BI to use the data to make a dashboard. Although I am new using these tools, this is not my first time doing a dashboard, I've made it through R language and you can check an example of it through this [repository](https://github.com/Gabrielforest/proj_sementes) which also includes a github page as I am used to do on my github.
 
 \  
 
-### __Introduction__ 
-
 \  
-\  
+After this period learning the basics (which was quite fast because the "SEQUEL" is very similar with English and the package dplyr from R, which probably is based on SQL) I've started to practice it using the Google BigQuery which is a fully-managed, serverless data warehouse that enables scalable analysis over petabytes of data. And I would like to comment that It was very impressive for me how it works so fast using an amount of data that my computer would never support...
 
 \  
 
+\  
+Anyways I have been using it a lot in order to practice SQL and generate quickly insights about different interesting subjects through Data Studio (which I am studying as well) within the same platform. The [basedosdados](https://basedosdados.org/) initiative to gather the public information from Brazil in a well organized way is very useful to combine several datasets through BigQuery and produce valuable and palpable perspectives about the content produced around us. That's why I chose a dataset available there, to get my first dashboard on Power BI, possibly divulging this organization for mates that are reading this.    
 
+\  
+
+\  
+I have written this following query to get my data which is totally reproducible thanks to [basedosdados](https://basedosdados.org/): 
+
+```sql
+-- gas emission of CO2e (t) GWP-AR5 
+-- table joined with population data from IBGE by state for 2018 and 2019
+-- considering 4 different sectors.
+
+WITH 
+t1 AS(
+SELECT 
+  ano,
+  nivel_1 AS setor,
+  sigla_uf AS estado,
+  gas,
+  SUM(emissao) AS emissao
+FROM 
+  `basedosdados.br_seeg_emissoes.uf` 
+WHERE 
+  ano = 2018 OR ano = 2019
+  AND gas = 'CO2e (t) GWP-AR5'
+GROUP BY
+  setor, estado, ano, gas
+),
+t2 AS(
+SELECT 
+  ano,
+  nivel_1 AS setor,
+  sigla_uf AS estado
+FROM
+  `basedosdados.br_seeg_emissoes.uf`
+WHERE
+  ano = 2018 OR ano = 2019
+  AND gas = 'CO2e (t) GWP-AR5'
+GROUP BY
+  ano, setor, estado
+),
+t3 AS(
+SELECT 
+  ano, 
+  sigla_uf, 
+  populacao
+FROM
+  `basedosdados.br_ibge_populacao.uf`
+WHERE
+  ano = 2018 OR ano = 2019
+GROUP BY 
+  sigla_uf, ano, populacao
+),
+t4 AS(
+SELECT 
+  t2.ano,
+  t2.setor,
+  t2.estado,
+  t3.populacao
+FROM 
+  t2
+JOIN
+  t3 
+  ON t2.ano = t3.ano
+  AND t2.estado = t3.sigla_uf 
+)
+SELECT
+  t4.ano,
+  t4.setor,
+  t4.estado,
+  t4.populacao,
+  t1.gas,
+  t1.emissao
+FROM 
+  t4
+JOIN
+  t1
+  ON t4.ano = t1.ano
+  AND t4.setor = t1.setor
+  AND t4.estado = t1.estado
+WHERE 
+  gas = 'CO2e (t) GWP-AR5'
+```
 
 \          
 \  
 
-### __Exploring the dashboard__        
-
+# Queried Data        
 \  
 \  
 
+\ 
+**YEARS**: the years covered on the query were 2018 and 2019.
+\  
+
+\  
+**POPULATION**: population of 2018-2019.
+\  
+
+\  
+**STATES**: all the states from Brazil.
+\  
+
+\  
+**SECTORS**: the data has 5 sectors and each one cover a determined area as specified below
+\  
+
+1) agriculture and livestock
+
+- rice cultivation
+- enteric fermentation
+- animal waste management
+- burning agricultural waste
+- managed soils
+
+2) energy
+
+- fugitive emissions
+- emissions from fuel combustion
+
+3) waste
+
+- liquid effluents
+- solid waste
+
+4) industrial processes
+
+- HFCs emissions
+- chemical industry
+- minearl products
+- metal production
+- non-energy use of fuels and use of solvents
+- use of SF6
+
+5) land and forest use change
+
+- land use changes
+- forest residues
+
+\  
+\  
+**EMISSION**: the gas that I've selected to compose this field is the equivalent carbon (t) GWP-AR5.
+Is important to say that there are two main approaches to determining the equivalent carbon: GWP (Global Warming Potential) and GTP (Global Temperature Change Potential). The first one considers the influence of the gases in the alteration of the energy balance of the Earth and, second, the influence in the increase of temperature. Both are measured for a term of 100 years, with GWP being most commonly used and the 'AR5' refers to the total emissions of greenhouse gases which were computed in the fith inventory defined by the Intergovernmental Panel on Climate Change (IPCC) guidelines for national inventories, that's why I chose this one. You can check more information about the data at this [link](http://seeg.eco.br/en/entenda-as-estimativas?cama_set_language=en).
+
+\  
+\  
+\  
+
+# Dashboard
+\  
 \  
 
 <iframe width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiZWIxZDA4NzEtYmZmOC00YzIxLTg0NGUtYjAyNzBkZTY0YmEzIiwidCI6ImVmOWQ2ZTcxLTY3N2QtNDU3My04ZGExLTg1YzBhYzlhY2U2YiJ9" frameborder="0" allowFullScreen="true"></iframe>
 
 
 
+# Conclusion
+\  
+\  
+
+I really enjoy the process to make this project learning SQL and Power Bi together which definitely allows me to spread my analyses combining several tools and keep learning it at the same time. 
+
+To finish, I would like to share the DAX formula that I've used to get the population by year and state on my dashboard:
+ 
+\  
+\  
+ 
+```DAX
+pop 2019 = 
+
+CALCULATE ( 
+  
+  SUMX ( 
+  
+    VALUES ( 'sql_gas_emission_2 (2)'[estado] ),
+    
+    CALCULATE( 
+      MAX ( 'sql_gas_emission_2 (2)'[populacao] ) 
+        ) 
+  
+  ), 
+  
+'sql_gas_emission_2 (2)'[ano] = 2019
+) 
+```
