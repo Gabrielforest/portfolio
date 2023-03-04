@@ -1,10 +1,11 @@
 ---
 title: "Contributing in Julia language"
 description: |
-  Solving a problem from Project Euler and contributing to a Julia language package
+  Solving a problem from Project Euler and contributing to a Julia package
 author:
   - name: Gabriel de Freitas Pereira
     url: {}
+preview: https://projecteuler.net/images/clipart/euler_portrait.png
 date: 2023-03-04
 output:
   distill::distill_article:
