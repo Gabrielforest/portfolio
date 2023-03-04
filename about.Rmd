@@ -11,10 +11,9 @@ knitr::opts_chunk$set(echo = FALSE)
 ### Hi!
 \   
 \  
-My name is Gabriel de Freitas Pereira and I am a Forest Engineering student from UFSCar (Federal University of São Carlos) and I started to 
-study it at 2018. Since there I have been dedicating my studies on conservation and at 2019 I started to write a project to find out the priority areas for conservation of Brazil nut trees involving genetic and climatic analysis. At beginning of 2020 the project was approved and I started to study R language, which is quite cool and it brought for me the area that I have been studying intensively which is environmental __data science__.
+Hello, my name is Gabriel de Freitas Pereira, and I am a Forest Engineering student at UFSCar (Federal University of São Carlos). I began my studies in 2018 and have since been focusing on conservation efforts. In 2019, I initiated a project aimed at identifying priority areas for the conservation of Brazil nut trees. This involved genetic and climatic analyses, and in early 2020, the project was approved. I also took the opportunity to learn R language, which has been incredibly exciting as it has allowed me to explore the field of data science.
 
 \ 
-So the main goal for this blog is to keep myself studying it and posting things about data science regarding my forest studies.   
+With this blog, my primary goal is to keep myself engaged in the topic and share my insights on data science in the context of my studies. 
 
  

@@ -1,0 +1,125 @@
+---
+title: "Contributing in Julia language"
+description: |
+  Solving a problem from Project Euler and contributing to a Julia language package
+author:
+  - name: Gabriel de Freitas Pereira
+    url: {}
+date: 2023-03-04
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+\  
+
+\  
+<div style="text-align: center">  
+## Coding challenge ##
+</div>
+\ 
+
+# Introduction 
+
+\ 
+  
+\  It's been a while since my last post here, but I've really missed writing about my studies. So, I've decided to make a comeback! I'm excited to look back at my old posts and see how much progress I've made since I first started this blog.
+
+\  
+
+\  At the time, I was just a student eager to learn new things in the R language. I'm proud to say that I landed my first job working solely on programming in R, where I spent an entire year honing my skills. However, since then, I've joined Uber as an Operations intern, which has given me the opportunity to learn outside the scope of programming. It's been a fantastic experience, and I'm thoroughly enjoying the new challenges. And to top it off, 2023 marks my final year of graduation!
+
+\  
+
+
+\  On this post I would like to discuss something I started a year ago and plan to continue doing, at least sporadically. Essentially I have been solving problems from [Project Euler](https://projecteuler.net/) website, that is a platform for solving mathematical problems that typically require heavy procedures. The goal is to find a solution according to a "one-minute rule", which means that although it may take several hours to design a successful algorithm with more difficult problems, an efficient implementation will allow a solution to be obtained on a modestly powered computer in less than one minute. I find it very intriguing and although I could not dedicate too much time on this, yet. I have been solving problems using mainly R language and sometimes Julia.
+
+\   
+
+# Problem proposed
+
+\  
+
+*Number letter counts*
+
+\  If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+
+\  If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+
+**NOTE**: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
+
+\   
+
+# Solving the Problem
+
+\  
+
+\  I decided to solve this problem in Julia, so my line thinking was straightforward:
+
+- "Transnumerate" and count their length for each iteration.
+
+- Once it is done, I just need to eliminate the white spaces and sum their length.
+
+
+\  Therefore, in order to solve the first step I did a quick research on the clearnet where I could find a package called [SpelledOut.jl](https://github.com/jakewilliami/SpelledOut.jl) from Jake. Which is a minimal package for a pure Julia implementation of converting numbers in their Arabic form to numbers in their Anglo-Saxan form. Exactly the first step required for the solution.
+Thus, using this tool, I wrote the comprehension below to store each spelled out number on my vector `v`:
+
+```julia
+v = [ SpelledOut.spelled_out( i, lang = :en_UK ) for i in 1:1000 ]
+```
+
+\  Now on the second step I need to find the length of each element in `v`, and then summing those lengths using the `sum()` function. Which is easily achieved using the following code:
+
+```julia
+sum( length.( v ) )
+```
+
+\  Besides that, we need to find the amount of spaces and hyphens in the English word representations to subtract the previous result, which is determined by using the `count()` function with `" "` (space) and `"-"` (hyphen) as the patterns to count:
+
+```julia
+sum( count.( " ", v ) ) + sum( count.( "-", v ) )
+```
+
+
+\  Finally in the last step I could gather the whole process in a function:
+
+```julia
+function total_letters( n::Int64 )
+  v = [ SpelledOut.spelled_out( i, lang = :en_UK ) for i in 1:n ]
+  sum( length.( v ) ) - ( sum( count.( " ", v ) ) + sum( count.( "-", v ) ) )
+end
+
+total_letters( 1000 )
+```
+
+\  Getting the answer: 21124 🚀 
+
+
+\  
+
+# Contributing
+
+\  
+
+\  That was nice but quite easy with the help provided by this package. Therefore, I decided to also contribute with the package implementing a Portuguese version of it, including `:pt_BR` (Brazil) and `:pt` (Portugal). Which you can download and use from [SpelledOut.jl repository](https://github.com/jakewilliami/SpelledOut.jl).
+
+
+\  
+
+# Conclusion
+
+\  
+
+\  I find the process of solving problems to be just as enjoyable as developing new features. Engaging in problem-solving exercises not only helps us to expand our knowledge and skill set but also trains our brain to think more critically and creatively. It keeps us motivated and focused on pursuing new challenges, which is essential for personal and professional growth. Whether it's a coding problem or a mathematical puzzle, each challenge offers a unique opportunity to learn and improve. I truly believe that problem-solving is a fundamental skill that can benefit us in all aspects of life. Even my grandmother thinks the same thing when she solves her word search puzzles.
+
+
+
+
+
+
+
+
