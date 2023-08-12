@@ -62,7 +62,7 @@ Observation: **I am aware that in a real world scenario we would need a bigger s
 
 \  Therefore to address this problem, there are several adjustment techniques. On this analysis I am going to use the Bonferroni correction in which the p-values are multiplied by the number of comparisons. Controlling the overall significance level to reduce the risk of false positives and make multiple comparisons more reliable.
 
-\  Besides that, I am not interested in the Intercepts generated, which represents the estimated uptake when the concentration is zero. Only in the slopes, which represent the estimated change in height associated with a one-unit increase in age. These coefficients provide crucial information about the relationship between height and age across different Seeds. Thus, by analyzing the slopes, we can understand how the height of trees responds to changes in age. 
+\  Besides that, I am not interested in the Intercepts generated, which represents the estimated age when the height is zero (makes no sense at this case). Only in the slopes, which represents the estimated change in height associated with a one-unit increase in age. These coefficients provide crucial information about the relationship between height and age across different Seeds. Thus, by analyzing the slopes, we can understand how the height of trees responds to changes in age. 
 
 Finally in order to accomplish all that was mentioned this code was written: 
 
@@ -88,7 +88,6 @@ slopes %>%
   ggplot( aes( estimate, p.value, label = Seed ) ) +
   geom_vline( xintercept = 0, lty = 2, linewidth = 0.9, alpha = 0.7, color = "gray30" ) +
   geom_point( aes( color = Seed ), alpha = 0.8, size = 2.5, show.legend = FALSE ) +
-  geom_text_repel( ) +
   facet_wrap( ~Seed ) +
   labs( x = "estimates", title = "Increase in height per age" ) +
   theme_bw( )  
