@@ -1,0 +1,2939 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+
+  <!--radix_placeholder_meta_tags-->
+<title>Portfolio: EDA + Clustering Data</title>
+
+<meta property="description" itemprop="description" content="Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)"/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2024-10-22"/>
+<meta property="article:created" itemprop="dateCreated" content="2024-10-22"/>
+<meta name="article:author" content="Gabriel de Freitas Pereira"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Portfolio: EDA + Clustering Data"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Portfolio"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Portfolio: EDA + Clustering Data"/>
+<meta property="twitter:description" content="Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)"/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["EDA + Clustering Data"]},{"type":"character","attributes":{},"value":["Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gabriel de Freitas Pereira"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["2024-10-22"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["Adidas Vs Nike.csv","eda-clustering-data_files/anchor-4.2.2/anchor.min.js","eda-clustering-data_files/bowser-1.9.3/bowser.min.js","eda-clustering-data_files/core-js-2.5.3/LICENSE","eda-clustering-data_files/core-js-2.5.3/package.json","eda-clustering-data_files/core-js-2.5.3/shim.min.js","eda-clustering-data_files/distill-2.2.21/template.v2.js","eda-clustering-data_files/figure-html5/unnamed-chunk-10-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-11-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-12-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-13-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-14-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-15-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-16-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-17-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-18-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-19-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-2-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-3-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-4-1.png","eda-clustering-data_files/figure-html5/unnamed-chunk-5-1.png","eda-clustering-data_files/header-attrs-2.28/header-attrs.js","eda-clustering-data_files/htmlwidgets-1.6.2/htmlwidgets.js","eda-clustering-data_files/jquery-3.6.0/jquery-3.6.0.js","eda-clustering-data_files/jquery-3.6.0/jquery-3.6.0.min.js","eda-clustering-data_files/jquery-3.6.0/jquery-3.6.0.min.map","eda-clustering-data_files/popper-2.6.0/popper.min.js","eda-clustering-data_files/react-17.0.0/AUTHORS","eda-clustering-data_files/react-17.0.0/LICENSE.txt","eda-clustering-data_files/react-17.0.0/react-dom.min.js","eda-clustering-data_files/react-17.0.0/react.min.js","eda-clustering-data_files/reactable-0.4.4/reactable.css","eda-clustering-data_files/reactable-0.4.4/reactable.js","eda-clustering-data_files/reactable-0.4.4/reactable.js.map","eda-clustering-data_files/reactable-0.4.4/reactable.server.js","eda-clustering-data_files/reactable-0.4.4/reactable.server.js.LICENSE.txt","eda-clustering-data_files/reactable-0.4.4/reactable.server.js.map","eda-clustering-data_files/reactable-0.4.4/reactable.yaml","eda-clustering-data_files/reactable-binding-0.4.4/reactable.js","eda-clustering-data_files/reactwidget-1.0.0/react-tools.js","eda-clustering-data_files/reactwidget-1.0.0/react-tools.js.map","eda-clustering-data_files/tippy-6.2.7/tippy-bundle.umd.min.js","eda-clustering-data_files/tippy-6.2.7/tippy-light-border.css","eda-clustering-data_files/tippy-6.2.7/tippy.css","eda-clustering-data_files/tippy-6.2.7/tippy.umd.min.js","eda-clustering-data_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      tolerance: 5,
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+/* adjust viewport for navbar height */
+/* helps vertically center bootstrap (non-distill) content */
+.min-vh-100 {
+  min-height: calc(100vh - 100px) !important;
+}
+
+</style>
+
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="../../site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+              ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+              : '';
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description || ''}
+                </div>
+                <div class="search-item-preview">
+                  ${img}
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+.nav-search {
+  font-size: x-small;
+}
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  font-size: 1rem;
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+  font-size: 100%;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+hr.section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0px;
+}
+
+
+d-byline {
+  border-top: none;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+  border-top: none;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+/* tweak for Pandoc numbered line within distill */
+d-article pre.numberSource code > span {
+    left: -2em;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // separator
+  var separator = '<hr class="section-separator" style="clear: both"/>';
+  // prepend separator above appendix
+  $('.d-byline').before(separator);
+  $('.d-article').before(separator);
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme, except when numbering line
+  // in code chunk
+  $('pre:not(.numberLines) code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      var author_name = front_matter.authors[i].author
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      const citeChild = $(this).children()[0]
+      // Do not process if @xyz has been used without escaping and without bibliography activated
+      // https://github.com/rstudio/distill/issues/466
+      if (citeChild === undefined) return true
+
+      if (citeChild.nodeName == "D-FOOTNOTE") {
+        var fn = citeChild
+        $(this).html(fn.shadowRoot.querySelector("sup"))
+        $(this).id = fn.id
+        fn.remove()
+      }
+      var refs = $(this).attr('data-cites').split(" ");
+      var refHtml = refs.map(function(ref) {
+        // Could use CSS.escape too here, we insure backward compatibility in navigator
+        return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+      }).join("\n");
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
+
+    // fix footnotes in tables (#411)
+    // replacing broken distill.pub feature
+    $('table d-footnote').each(function() {
+      // we replace internal showAtNode methode which is triggered when hovering a footnote
+      this.hoverBox.showAtNode = function(node) {
+        // ported from https://github.com/distillpub/template/pull/105/files
+        calcOffset = function(elem) {
+            let x = elem.offsetLeft;
+            let y = elem.offsetTop;
+            // Traverse upwards until an `absolute` element is found or `elem`
+            // becomes null.
+            while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                x += elem.offsetLeft;
+                y += elem.offsetTop;
+            }
+
+            return { left: x, top: y };
+        }
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+        const bbox = node.getBoundingClientRect();
+        const offset = calcOffset(node);
+        this.show([offset.left + bbox.width, offset.top + bbox.height]);
+      }
+    })
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    // ignore leaflet img layers (#106)
+    figures = figures.filter(':not(img[class*="leaflet"])')
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      50px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #000000;
+  --header-color:    rgba(0, 0, 0, 0.8);
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       18px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      50px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #000000;
+  --header-color:    rgba(0, 0, 0, 0.8);
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    Courier New;
+  --mono-font:       Courier New;
+  --body-font:       Courier New;
+  --navbar-font:     Courier New;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       18px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #000000;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+
+/*-- Justify text base on inspect from blog --*/ 
+d-article{
+  text-align: justify;
+}</style>
+<style type="text/css">
+/* base style */
+
+/* FONT FAMILIES */
+
+:root {
+  --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+body,
+.posts-list .post-preview p,
+.posts-list .description p {
+  font-family: var(--body-font), var(--body-default);
+}
+
+h1, h2, h3, h4, h5, h6,
+.posts-list .post-preview h2,
+.posts-list .description h2 {
+  font-family: var(--heading-font), var(--heading-default);
+}
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: var(--mono-font), var(--mono-default);
+}
+
+
+/*-- TITLE --*/
+d-title h1,
+.posts-list > h1 {
+  color: var(--title-color, black);
+}
+
+d-title h1 {
+  font-size: var(--title-size, 50px);
+}
+
+/*-- HEADERS --*/
+d-article h1,
+d-article h2,
+d-article h3,
+d-article h4,
+d-article h5,
+d-article h6 {
+  color: var(--header-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- BODY --*/
+d-article > p,  /* only text inside of <p> tags */
+d-article > ul, /* lists */
+d-article > ol {
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+  font-size: var(--body-size, 1.06rem);
+}
+
+
+/*-- CODE --*/
+d-article div.sourceCode code,
+d-article pre code {
+  font-size: var(--code-size, 14px);
+}
+
+/*-- ASIDE --*/
+d-article aside {
+  font-size: var(--aside-size, 12px);
+  color: var(--aside-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- FIGURE CAPTIONS --*/
+figure .caption,
+figure figcaption,
+.figure .caption {
+  font-size: var(--fig-cap-size, 13px);
+  color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- METADATA --*/
+d-byline h3 {
+  font-size: var(--heading-size, 0.6rem);
+  color: var(--heading-color, rgba(0, 0, 0, 0.5));
+}
+
+d-byline {
+  font-size: var(--body-size, 0.8rem);
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+d-byline a,
+d-article d-byline a {
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- TABLE OF CONTENTS --*/
+.d-contents nav h3 {
+  font-size: var(--heading-size, 18px);
+}
+
+.d-contents nav a {
+  font-size: var(--contents-size, 13px);
+}
+
+/*-- APPENDIX --*/
+d-appendix h3 {
+  font-size: var(--heading-size, 15px);
+  color: var(--heading-color, rgba(0, 0, 0, 0.65));
+}
+
+d-appendix {
+  font-size: var(--text-size, 0.8em);
+  color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+d-appendix d-footnote-list a.footnote-backlink {
+  color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+.distill-site-header .title {
+  font-size: var(--title-size, 18px);
+  font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a,
+.nav-dropdown .nav-dropbtn {
+  font-family: var(--navbar-font), var(--heading-default);
+}
+
+.nav-dropdown .nav-dropbtn {
+  color: var(--text-color, rgba(255, 255, 255, 0.8));
+  font-size: var(--text-size, 15px);
+}
+
+.distill-site-header a:hover,
+.nav-dropdown:hover .nav-dropbtn {
+  color: var(--hover-color, white);
+}
+
+.distill-site-header {
+  font-size: var(--text-size, 15px);
+  color: var(--text-color, rgba(255, 255, 255, 0.8));
+  background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer {
+  font-size: var(--text-size, 15px);
+  color: var(--text-color, rgba(255, 255, 255, 0.8));
+  background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer a:hover {
+  color: var(--hover-color, white);
+}</style>
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.28/header-attrs.js"></script>
+  <script src="../../site_libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="../../site_libs/react-17.0.0/react.min.js"></script>
+  <script src="../../site_libs/react-17.0.0/react-dom.min.js"></script>
+  <script src="../../site_libs/reactwidget-1.0.0/react-tools.js"></script>
+  <script src="../../site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+  <link href="../../site_libs/reactable-0.4.4/reactable.css" rel="stylesheet" />
+  <script src="../../site_libs/reactable-binding-0.4.4/reactable.js"></script>
+  <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"EDA + Clustering Data","description":"Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)","authors":[{"author":"Gabriel de Freitas Pereira","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2024-10-22T00:00:00.000-03:00","citationText":"Pereira, 2024"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Portfolio</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>EDA + Clustering Data</h1>
+
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)</p></p>
+</div>
+
+<div class="d-byline">
+  Gabriel de Freitas Pereira true 
+  
+<br/>2024-10-22
+</div>
+
+<div class="d-article">
+<h1 id="introduction">Introduction</h1>
+<p>Hi there! It’s been a while since my last post, and I’m excited to share an analysis
+I’ve been working on as part of my new journey in pursuing a Master’s degree in Computer Science at the same
+university where I completed my undergraduate studies (UFSCar).</p>
+<p>The first course I took in this program was focused on <strong>Unsupervised and Semi-supervised Machine Learning</strong>. It’s been a fascinating experience so far, and I’ve learned some interesting techniques that I’m eager to explore in this post. Specifically, I’ll be using <strong>K-means</strong> and <strong>Hierarchical Density-Based Spatial Clustering of Applications with Noise (HDBSCAN)</strong> in order to create clusters and identify patterns in products from Adidas and Nike.</p>
+<h1 id="dataset">Dataset</h1>
+<p>For this analysis, I used a dataset that contains detailed information on sales and other relevant aspects of Adidas and Nike products. The dataset consists of 3,268 products from both brands, with 12 attributes related to these products. You can access this dataset for free on Kaggle via this <a href="https://www.kaggle.com/datasets/kaushiksuresh147/adidas-vs-nike">link</a>.
+Here it is the overview of it:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">brands</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">3268</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 13%" />
+<col style="width: 19%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 8%" />
+<col style="width: 12%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Product.Name</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">73</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1531</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Product.ID</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3179</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brand</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Description</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">687</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1763</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Last.Visited</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">318</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 10%" />
+<col style="width: 15%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 4%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Listing.Price</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6868.02</td>
+<td style="text-align: right;">4724.66</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4299.0</td>
+<td style="text-align: right;">5999.0</td>
+<td style="text-align: right;">8999.0</td>
+<td style="text-align: right;">29999</td>
+<td style="text-align: left;">▇▆▂▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sale.Price</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6134.27</td>
+<td style="text-align: right;">4293.25</td>
+<td style="text-align: right;">449</td>
+<td style="text-align: right;">2999.0</td>
+<td style="text-align: right;">4799.0</td>
+<td style="text-align: right;">7995.0</td>
+<td style="text-align: right;">36500</td>
+<td style="text-align: left;">▇▂▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Discount</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">26.88</td>
+<td style="text-align: right;">22.63</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">40.0</td>
+<td style="text-align: right;">50.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: left;">▇▁▁▅▆</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rating</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.24</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.6</td>
+<td style="text-align: right;">3.5</td>
+<td style="text-align: right;">4.4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▃▁▅▆▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reviews</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">40.55</td>
+<td style="text-align: right;">31.54</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">37.0</td>
+<td style="text-align: right;">68.0</td>
+<td style="text-align: right;">223</td>
+<td style="text-align: left;">▇▆▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="exploratory-data-analysis">Exploratory Data Analysis</h1>
+<p>I started by creating visualizations that focus on the Sale Price and Listing Price distributions. By overlaying these histograms, we aim to identify patterns in pricing strategies, such as differences in pricing ranges, which can provide valuable insights into market behavior.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-2-1.png" alt="Comparative Analysis of Sale Price vs Listing Price for Adidas and Nike" width="768" />
+<p class="caption">
+Figure 1: Comparative Analysis of Sale Price vs Listing Price for Adidas and Nike
+</p>
+</div>
+</div>
+<p>Before diving deeper into this, I’d like to review the other variables. This might help on identifying any inconsistencies or elements that may not be useful for the analysis.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-3-1.png" alt="Frequency of Brand Categories" width="960" />
+<p class="caption">
+Figure 2: Frequency of Brand Categories
+</p>
+</div>
+</div>
+<p>With the insight brought by the visualization above this product called <em>Adidas Adidas Originals</em> was reassigned for the correct category called <em>Adidas Originals</em>. This way we are going to remain with only 4 categories instead of 5 given the inconsistency found in the Brand assignment.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-4-1.png" alt="Comparative Analysis of Sale Price vs Listing Price by Brand" width="768" />
+<p class="caption">
+Figure 3: Comparative Analysis of Sale Price vs Listing Price by Brand
+</p>
+</div>
+</div>
+<p>After visualizing the information contained in the <em>Figure 3</em>, a couple of interesting questions come to mind:</p>
+<pre><code>- How many products have a Listing Price higher than the Sale Price?</code></pre>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-5-1.png" alt="Comparison of Listing Price vs Sale Price by Brand" width="1152" />
+<p class="caption">
+Figure 4: Comparison of Listing Price vs Sale Price by Brand
+</p>
+</div>
+</div>
+<pre><code>- Why is there a difference between Listing Price and Sale Price? Is it always due to discounts?</code></pre>
+<p>Well no, among the 876 products with an available Listing Price and no explicit discounts, 217 have a Sale Price lower than the Listing Price. This suggests that the difference isn’t always due to planned discounts, leading to a few possible explanations:</p>
+<ul>
+<li>Unrecorded Discounts: Discounts may have been applied but not properly documented in the data.</li>
+<li>Dynamic Pricing: Prices may vary due to demand, stock, or customer behavior, without being categorized as discounts.</li>
+<li>System or Labeling Errors: Price discrepancies could result from labeling or system errors.</li>
+<li>Competitive Pricing: Companies may lower prices to stay competitive, even without formal discounts.</li>
+<li>Promotions: Other forms of price reductions might not be labeled as discounts but still lower the sale price.</li>
+<li>Market Value Changes: Prices might be reduced over time to reflect changes in demand or product value.</li>
+</ul>
+<p>Which brand segment is most affected by these unrecorded changes?</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://glin.github.io/reactable/reference/reactable.html'>reactable</a></span><span class='op'>(</span> </span>
+<span>  <span class='va'>brands</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span> <span class='va'>Brand</span> <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span> <span class='va'>Listing.Price</span> <span class='op'>&gt;</span> <span class='va'>Sale.Price</span>, <span class='va'>Discount</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span> <span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-648df1d5ce92db224242" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-648df1d5ce92db224242">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Brand":["Nike"],"n":[217]},"columns":[{"id":"Brand","name":"Brand","type":"character"},{"id":"n","name":"n","type":"numeric"}],"dataKey":"6126a44947d7a6da6c3b5fb6fbb69232"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>As seen above, all products that do not show a discount in the data but had changes in the final sale price are Nike products. In fact, every Nike product with a listing price underwent adjustments. This suggests either that these products do not have the correct listing price, or the discount is not being recorded for these products (the latter is more likely, as no Nike product in the dataset has a documented discount).</p>
+<pre><code>- Are there any products with a Sale Price higher than the Listing Price?</code></pre>
+<div class="layout-chunk" data-layout="l-body">
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-42d0c88e4f09de009397" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-42d0c88e4f09de009397">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Brand":["Adidas CORE / NEO","Adidas ORIGINALS","Adidas SPORT PERFORMANCE","Nike"],"total":[1111,908,606,643],"count_higher_sale_price":[0,0,0,426],"proportion_higher":[0,0,0,66.25]},"columns":[{"id":"Brand","name":"Brand","type":"character"},{"id":"total","name":"total","type":"numeric"},{"id":"count_higher_sale_price","name":"count_higher_sale_price","type":"numeric"},{"id":"proportion_higher","name":"proportion_higher","type":"numeric"}],"dataKey":"75c44a55a6fb1e16c74a15d8e0376b8c"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>This is unexpected, right? The Listing Price should be equal to or higher than the Sale Price, not the other way around. I’ll take a closer look at these Nike products.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://glin.github.io/reactable/reference/reactable.html'>reactable</a></span><span class='op'>(</span> </span>
+<span>  <span class='va'>brands</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span> <span class='va'>Product.Name</span>, <span class='va'>Listing.Price</span>, <span class='va'>Sale.Price</span>, <span class='va'>Discount</span> <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span> <span class='va'>Sale.Price</span> <span class='op'>&gt;</span> <span class='va'>Listing.Price</span> <span class='op'>)</span>, defaultPageSize <span class='op'>=</span> <span class='fl'>5</span></span>
+<span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8db60d9081ab4603f34e" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-8db60d9081ab4603f34e">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Product.Name":["Nike Air Force 1 '07 Essential","Nike Air Force 1 '07","Nike Air Force 1 Sage Low LX","Nike Air Max Dia SE","Nike Air Max Verona","Nike Free Metcon 3","NikeCourt Blanc","Nike Free Metcon 3","Nike Zoom Pegasus Turbo 2","Nike Air Max 270 React ENG","Nike Air Max 90","Nike Air Force 1 '07","Jordan Air Max 200 XX","Nike SuperRep Go","Nike Air VaporMax Flyknit 3","Nike Air Zoom SuperRep","Nike Air Max 270 React ENG","Nike Air Max 97","Nike Air Force 1 '07","Nike Court Vintage Premium","Nike Air Max 97","Air Jordan XXXIV PF","Nike Metcon 5","Nike React Phantom Run Flyknit 2","Nike Joyride Run Flyknit","Nike Air Max 90","Nike Air VaporMax 360","Nike Offcourt","Nike React Phantom Run Flyknit 2","Jordan Break","LeBron 7 QS","Nike In-Season TR 9","Nike ZoomX Vista Grind","Nike Air Force 1 Sage Low","Nike Air Force 1 '07 LV8","Nike Air Max 720","Nike Air Max Dia","Air Jordan 1 Mid SE","Nike Daybreak","Nike SB Shane","Nike Mercurial Vapor 13 Club Neymar Jr. TF","Air Jordan 1 Mid","Nike Air Max 270 React","Nike Air Max 98","Nike Joyride Dual Run Premium","Nike Free RN Flyknit 3.0 2020","Nike Mercurial Vapor 13 Club Neymar Jr IC","Nike Mercurial Vapor 13 Elite Neymar Jr. FG","PG 4 EP","Air Max 97 LX","Nike Air Max 90","Jordan 'Why Not?' Zer0.3 PF","Nike Air Zoom SuperRep","Nike Metcon 5 AMP","Nike Mercurial Vapor 13 Club IC","Nike Air Max 97","Nike Air Max Triax","LeBron 17 Low","Nike Mercurial Vapor 13 Academy Neymar Jr. TF","Nike Air Max 2090","Nike Renew Fusion","LeBron 17","Nike Air Max 720 OBJ Slip","Nike SuperRep Go","Nike Air Max 90 Premium","Nike Mercurial Superfly 7 Elite SE FG","Nike Air Max 90","Nike Mercurial Superfly 7 Club TF","Nike Zoom Gravity","Nike Air Max 270 React ENG","Nike Air Force 1 Type","Nike Legend React","Air Jordan 1 Low SE","NikeCourt Air Max Wildcard","Nike Blazer Low","Zoom LeBron 3 QS","Nike Free Metcon 3","KD Trey 5 VII EP","Nike Mercurial Vapor 13 Academy TF","Jordan React Havoc SE","Nike SB Air Max Stefan Janoski 2","Nike Mercurial Superfly 7 Elite SE FG","Nike Phantom Venom Academy FG","Nike ACG Air Terra Antarktik","Nike Mercurial Superfly 7 Academy MG","Nike x MMW Joyride CC3 Setter","Nike SB Blazer Low GT","LeBron 17 Monstars","Nike Air Max Impact","Nike Air Max 90 QS","Nike Phantom Vision 2 Academy Dynamic Fit MG","Nike Air Max 270","Nike Phantom Vision 2 Club Dynamic Fit MG","Nike Air Force 1 '07 LV8","Nike Air Max 90","Nike Free RN 5.0 2020","Nike ACG MOC 3.0","Nike Mercurial Vapor 13 Academy Neymar Jr. MG","Nike x Carhartt WIP Air Max 95","Nike Tiempo Legend 8 Elite FG","Nike Mercurial Superfly 7 Club MG","Nike Renew Run","Air Jordan 10 Retro","Air Jordan 12 Retro","Nike Air Max 270 React","Nike Mercurial Superfly 7 Academy MDS MG","Nike Air Zoom Winflo 6","Nike Air Max 97","Nike Zoom Fly 3 Premium","Nike MX-720-818","Nike React Element 55","Nike SB Charge Slip Premium","Nike Free RN 5.0 2020","Nike ZoomX Vista Grind","Nike Air Force 1 React","PG 4 EP","Nike Air Max 2090","Nike Air Force 1 '07 LV8","Kyrie 6 AS EP","Nike Air VaporMax Flyknit 3","Nike Air Max Verona","Nike Air Force 1 Shadow","Nike Air Max Verona","Nike Air Tailwind 79","Nike Zoom 2K","Nike Zoom Pegasus Turbo 2","Nike Kawa Shower","Nike React Infinity Run Flyknit","Nike Air Max 1 DNA Ch. 1","Nike Legend React 2","Nike Metcon 5","Nike Air VaporMax 360","Nike Blazer Low QS Flyleather with at least 50% leather fibre","Nike SB Dunk High Pro","Nike Air Max 90 FlyEase","Nike Metcon 5 AMP","Nike React Kenny 55","Nike Air Force 1 Low Retro","NikeCourt Zoom Cage 3","Nike Air Max 90 Print","Nike Metcon Sport","Jordan Mars 270","Nike Air Zoom Vomero 14","Nike Air Max 720","Nike Zoom Fly","Nike Zoom Fly 3","Nike Air Zoom Pegasus 35","Nike Air Zoom Pegasus 36 Trail","KD13 EP","Nike Air Monarch IV","Zoom Freak 1","Nike Mercurial Superfly 7 Academy IC","Air Jordan 1 Low","Nike Air Max 95 Print","Nike Mercurial Vapor 13 Elite FG","Nike SB Adversary Premium","Nike Air VaporMax 360","Nike Zoom KD12","Nike Air Max 90","Air Jordan 4 Retro SE","Nike SB Zoom Stefan Janoski Canvas RM Premium","Nike Mercurial Superfly 7 Academy MDS TF","Nike Pegasus 36 FlyEase (Extra Wide)","Air Jordan OG","Nike Air Max 270 React ENG","Nike Air Zoom Pegasus 36","Jordan Aerospace 720","Nike Air Max Plus III","Jordan Hydro 8","Nike Air Max 90/1","Nike Air Max 90","Nike Air Max 270 React","Nike Air Max 1 Premium","Nike Tiempo Legend 8 Club MG","Nike Air Zoom Terra Kiger 6","Jordan Jumpman 2020 PF","Nike Air Max 90 SP","Nike Joyride Dual Run","Nike AF-1 Shadow SE","NikeCourt Air Zoom Vapor X","Nike Bella Kai","Nike Mercurial Vapor 13 Club Neymar Jr. MG","Nike Mercurial Vapor 13 Club Neymar Jr. TF","Nike Mercurial Vapor 13 Elite Neymar Jr. FG","Nike Mercurial Vapor 13 Academy Neymar Jr. TF","Nike Mercurial Vapor 13 Academy Neymar Jr. MG","LeBron 17","Nike Benassi","Air Jordan XXXIV PF","LeBron Witness 4 EP","Nike React Sertu","Nike React Element 55 SE","Nike Zoom Rival Fly 2","Nike Precision 4","Nike Renew Run Special Edition","Kyrie Flytrap 3 EP","Nike Mercurial Vapor 13 Club Neymar Jr IC","Nike Air Max Alpha Savage","Jordan Max 200","Nike React Vision","Nike Phantom Vision 2 Club Dynamic Fit TF","Jordan Trunner NXT React","Kyrie Low 2","Nike Zoom Pegasus Turbo 2","Nike React Infinity Run Flyknit","Nike Tiempo Legend 8 Academy MG","Kyrie 5","Nike Flex 2020 RN","Nike Air Force 1 '07","Nike SB Chron Solarsoft Premium","NikeCourt Air Max Vapor Wing Premium","Nike Phantom Vision 2 Elite Dynamic Fit FG","Nike Air Max 270 SE","Nike Zoom KD11 EP","Nike React Metcon AMP","Nike Air Max 95 Premium","Nike Benassi JDI","Nike Tiempo Legend 8 Academy IC","Nike Mercurial Vapor 13 Academy MG","Nike React Presto Premium","Zoom Freak 1 'Employee of the Month'","Nike ZoomX Vaporfly NEXT%","Nike SB Check","Nike Free RN Flyknit 3.0 2020","Nike iSPA React","Nike Air Max 90","NikeCourt Air Zoom Zero","Nike Air Force Max II","Nike Air Max 1 Print","Nike Mercurial Superfly 7 Elite MDS FG","Nike Mercurial Vapor 13 Club IC","Nike Air VaporMax 360","Nike Solarsoft","Nike Zoom Fly 3 Premium","Nike MX-720-818","Nike Mercurial Vapor 13 Elite SE FG","Nike Air Max 720 BETRUE","Nike Air Force 1 Mid '07","Nike Air Max 2017","Nike EXP-X14 SE","NikeCourt Lite 2","Air Max 200 20","Nike x Undercover Air Max 720","Air Jordan 13 Retro","Kyrie 6 EP 'Chinese New Year'","Nike Fly.By Mid","Nike Zoom KD12","Nike Mercurial Vapor 13 Elite SE FG","Nike MX-720-818","Nike Mercurial Vapor 13 Club Neymar Jr. MG","Nike Air Streak Lite","Nike SB Zoom Stefan Janoski Canvas RM Premium","Nike Wildhorse 6","Nike Air Zoom Pegasus 36","Nike Air Zoom Wildhorse 5","Nike Benassi JDI BETRUE","Kyrie 4","Air Jordan 5 Retro","Nike Flex 2020 RN","Nike Drop-Type Premium","Jordan Modero 2 VP","Nike React Metcon","Nike Classic Cortez","Jordan 'Why Not?' Zer0.2 SE","Nike Tiempo Legend 8 Club TF","Nike Phantom Vision 2 Academy Dynamic Fit TF","Nike Zoom Fly Flyknit","Nike Air Max 98 SE","Nike x Hawkins High Cortez","Nike Air Max 2090","NikeCourt Air Max Vapor Wing MS","LeBron x John Elliott Icon","Nike Air Max 270 Flyknit","Air Jordan 13 Retro Chinese New Year","Nike Air Max 720","Nike Air Force 1 Type-2","Nike SB Air Max Stefan Janoski 2","Nike Air Zoom Pegasus 36 Trail","Nike Flex TR 9","Nike Metcon 5 AMP","Nike SB Air Zoom Bruin Edge","Nike ISPA Air Max 720","Nike x Undercover React Presto","Nike Canyon","Nike Flex RN 2019","NikeCourt Air Max Vapor Wing MS","Nike React Vision","Nike Air Max 2090","Nike Air Max Dia Winter","Nike Mercurial Superfly 7 Elite SE FG","Nike SB Shane","Nike Kawa Shower","Nike Air VaporMax 360","Air Jordan 1 Mid","Nike Phantom Vision 2 Academy Dynamic Fit MG","Nike React Element 55 SE","Nike Metcon 5","Nike Benassi","Nike Air Force 1 React","Nike Air Zoom Pegasus 36","Nike Zoom Fly 3","Kyrie 6 EP","Nike Air Force 1 Shadow","Nike Potential 3","Nike Air Huarache","KD Trey 5 VII EP","Nike Phantom Venom Academy FG","Nike Phantom Vision 2 Elite Dynamic Fit FG","Nike Metcon 5 AMP","Nike Air Max 270 React","Air Jordan 12 Retro","Nike Mercurial Superfly 7 Club MG","Nike Phantom Venom Academy TF","Nike Mercurial Superfly 7 Academy MDS MG","Nike SB Dunk High Pro","Nike Tiempo Legend 8 Elite FG","Nike SB Zoom Stefan Janoski Canvas RM","Jordan 'Why Not?' Zer0.2 SE PF","Nike Shox TL Nova SP","Nike Phantom Vision 2 Club Dynamic Fit MG","Nike Potential 3","Nike x Olivia Kim Air Force 1 '07","Nike SB Adversary Premium","Nike SB Air Zoom Bruin Edge","Nike Daybreak","Nike Mercurial Superfly 7 Elite FG","Nike Air Max 90 Essential","Nike Air Max Triax 96 SP","Nike SB Charge Slip Premium","Nike Air Max 2090","Nike Zoom Rival Fly 2","Nike Offcourt SE","Nike Air Max 720 SE","Nike Revolution 5 FlyEase","Nike Classic Cortez","Nike Precision 4","Nike Air Max 270","Nike SFB Gen 2 20cm (approx.)","Nike Air Max Dia","Nike SB Alleyoop","Air Jordan 1 Low","Nike Air Max Bella TR 2","Nike Air Zoom Terra Kiger 6","Nike Air Force 1 SP","Nike Zoom Pegasus Turbo","Air Jordan OG","NikeCourt Air Zoom Vapor Cage 4","Air Jordan 1 Nova XX","Nike Flex RN 2019","Nike Mercurial Superfly 7 Club TF","Nike Free X Metcon 2","Nike Mercurial Vapor 13 Academy MDS MG","Nike Air Max Impact","Nike Classic Cortez","Nike Air Max 90 Premium","Nike Renew Run","Nike Air Max 270 Special Edition","Nike React Metcon AMP","Nike Air Force 1 Sage Low","Nike Air Max Triax 96","Nike Tiempo Legend 8 Club MG","Nike Air Max 90","Nike Air VaporMax Flyknit 2 LXX","Nike Mercurial Superfly 7 Elite SE FG","Air Jordan 1 Jester XX Low Laced","Nike Metcon 5 Premium","Nike SB Zoom Stefan Janoski Canvas RM","Nike Tiempo Legend 8 Academy IC","Nike SFB Gen 2 20cm (approx.)","Nike Mercurial Superfly 7 Elite MDS FG","Nike Wildhorse 6","Nike Air Max 270 React SE","Nike Benassi JDI BETRUE","Nike Air Max 2017","Nike Phantom Vision 2 Club Dynamic Fit TF","Nike SB Alleyoop","Nike Mercurial Vapor 13 Elite SE FG","Nike Air Zoom Structure 22","NikeCourt Air Zoom Vapor X","Air Jordan 13 Retro","Nike Zoom Pegasus Turbo 2","Nike Air Max 97","Nike Air Zoom Pegasus 36","Nike Phantom Venom Academy TF","Kyrie 4","Nike Metcon 4 XD Patch","Nike React Metcon","Nike Phantom Vision 2 Academy Dynamic Fit TF","Nike ZoomX Vista Grind SP","Nike Air Max 90","Nike Air Max 270 React","Nike Drop-Type","Nike Air Max 98 SE","Nike Zoom Rival Fly 2","Nike MX-720-818","Nike Air Max 98","Nike Mercurial Superfly 7 Academy MDS TF","Nike Air Max 720 BETRUE","Nike Legend React","Nike Air Zoom Winflo 6","NikeCourt Air Max Wildcard","Nike Air Max 98","NikeCourt Air Zoom Zero","Nike M2K Tekno","Air Jordan 5 Retro","Nike Mercurial Vapor 13 Elite FG","Nike Zoom KD12","Nike Mercurial Superfly 7 Academy IC","Nike Daybreak","Nike Mercurial Superfly 7 Elite FG","Nike SB Chron Solarsoft Premium","Nike Tiempo Legend 8 Club TF","Nike Air Max Bella TR 3","Nike Pre-Love O.X.","Nike Mercurial Vapor 13 Academy MG","Nike Mercurial Superfly 7 Academy MG","Nike Air Force 1 '07 SE","Nike React Metcon","Nike Air Max 200","Nike Mercurial Vapor 13 Club MG","Nike Metcon 5 AMP","Air Jordan 5 Retro","Nike ZoomX Vaporfly NEXT%","Nike Tiempo Legend 8 Academy TF","Nike React Metcon AMP","Nike Air Max 98"],"Listing.Price":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"Sale.Price":[7495,7495,9995,9995,9995,9995,5995,9995,15995,14995,9995,7495,10495,7995,16995,9995,14995,16995,7995,5495,15995,14995,10995,11995,14995,9995,18995,2495,11995,1995,16995,5995,13995,8995,7595,15995,8995,9995,7995,6495,5495,9995,12995,16995,11995,10995,5495,22995,8995,15995,9995,10995,9995,11995,4995,14995,10995,13995,7995,11995,6995,16995,16995,7995,11995,24995,9995,5995,7995,14995,11995,8795,8995,7995,6995,14995,9995,7995,7495,10995,9995,22995,7495,15995,8495,16995,6995,16995,7995,11995,8495,13995,5995,7595,9995,7995,7995,7995,16995,20995,5995,6995,15995,15995,12995,8995,7995,15995,14995,15995,11995,5495,7995,13995,9995,8995,11995,7995,10995,16995,9995,8995,10995,7995,6995,15995,1595,13995,12995,7995,10995,18995,6495,8995,9995,11995,12995,10995,13495,12995,7995,14995,11995,15995,14495,13995,10995,10995,12995,5295,9995,8495,8995,16995,21995,7995,18995,12995,9995,18995,7995,8995,9995,11995,14995,9995,16995,15995,3995,14995,9995,12995,11995,4495,10995,8995,15995,10995,9995,14995,1995,5495,5495,22995,7995,7995,16995,2495,14995,7995,12995,10995,7995,5495,7995,6495,5495,8995,10495,10995,5995,11995,9495,15995,13995,6495,8495,6995,7295,5995,7995,22995,13995,14995,13995,14995,2795,6495,7495,10995,9995,19995,5495,10995,13995,9995,11995,13995,12995,24995,4995,18995,1595,14995,15995,21995,15995,7595,15995,11995,4995,10995,16995,15995,10995,4495,12995,21995,15995,5495,8995,7995,9995,9995,8995,4495,10995,18995,6995,6995,4495,12995,6595,11995,4495,8495,15995,15995,9995,11995,6495,19995,15995,19995,15995,11995,9995,10995,5495,11995,7995,17995,15995,5995,6995,6495,10995,11995,10995,22995,6495,1595,18995,9995,8495,11995,10995,2495,9995,10995,13995,10995,8995,4495,8995,7995,7495,22995,11995,13995,15995,5995,7495,8995,8995,20995,6995,10995,14995,5995,4495,9995,7995,7995,9995,22995,8995,12995,5495,13995,7995,2995,15995,3695,6995,5495,13995,13995,8995,6495,8995,6495,10995,12995,15995,11995,12995,10495,6995,5995,9995,7495,7995,6995,11995,6995,14995,13995,8995,10995,4495,10995,36500,24995,7995,11995,6995,6495,13995,24995,9995,13995,4495,15995,5995,6495,21995,9995,14995,15995,15995,16995,10995,7495,10995,11995,12995,8495,14995,9995,12995,5995,15995,7995,15995,15995,8995,15995,8795,7995,7995,16995,11995,8995,18995,21995,12995,8495,9995,22995,5995,4495,6495,7495,7495,8495,7995,12995,9995,4995,11995,15995,19995,6495,13995,16995],"Discount":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"columns":[{"id":"Product.Name","name":"Product.Name","type":"character"},{"id":"Listing.Price","name":"Listing.Price","type":"numeric"},{"id":"Sale.Price","name":"Sale.Price","type":"numeric"},{"id":"Discount","name":"Discount","type":"numeric"}],"defaultPageSize":5,"dataKey":"3722da136a9858e069f623d864ad8fb6"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>An intriguing issue in this table is that these products with higher sale price have a listing price of 0, which suggests a potential error in the data generation process, as it’s unlikely for a product to be listed without a price. To correct this, I will assign the sale price value to these cases, adjusting based on the discount column (if available):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>brands_input</span> <span class='op'>&lt;-</span> </span>
+<span>  <span class='va'>brands</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span> Listing.Price <span class='op'>=</span> </span>
+<span>            <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span> </span>
+<span>              <span class='va'>Listing.Price</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>Discount</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='va'>Sale.Price</span>,</span>
+<span>              <span class='va'>Listing.Price</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>Discount</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='va'>Sale.Price</span> <span class='op'>*</span> <span class='va'>Discount</span> <span class='op'>/</span> <span class='fl'>100</span>,</span>
+<span>              <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>Listing.Price</span>  </span>
+<span>          <span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>As I mentioned before, none of the Nike products have a discount available in the dataset. But what about the <strong>Adidas products</strong>?</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-10"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-10-1.png" alt="Distribution of Discounts Across Adidas Segments" width="624" />
+<p class="caption">
+Figure 5: Distribution of Discounts Across Adidas Segments
+</p>
+</div>
+</div>
+<p>The flow chart from the <em>Figure 5</em> shows that <strong>CORE / NEO</strong> segment had the highest percentage of products with discounts over 30%. Ok, so let’s explore ratings description and reviews before building our product clusters.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-11"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-11-1.png" alt="Distribution of Ratings Across Segments" width="960" />
+<p class="caption">
+Figure 6: Distribution of Ratings Across Segments
+</p>
+</div>
+</div>
+<p>The difference between the brands’ ratings is notable; however, it is important to point out that they have different numbers of products, with Nike having the fewest representatives in the dataset, which may explain the high standard deviation observed. Additionally, the dataset includes product descriptions, and given that it contains only shoes, it would be interesting to explore the common words used in these descriptions to gain insights into product characteristics or marketing trends.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-12"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-12-1.png" alt="Frequency of Words by Brand" width="1152" />
+<p class="caption">
+Figure 7: Frequency of Words by Brand
+</p>
+</div>
+</div>
+<p>Naturally, the first question that arises from this plot is whether there’s any relationship between the words used and the product ratings. To explore this further, I conducted an analysis and visualized the findings in the form of this eye-catching word cloud:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-13-1.png" alt="Frequency of Words by Brand" width="624" />
+<p class="caption">
+Figure 8: Frequency of Words by Brand
+</p>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-14-1.png" alt="Distribution of Reviews by Brand" width="864" />
+<p class="caption">
+Figure 9: Distribution of Reviews by Brand
+</p>
+</div>
+</div>
+<p>The word cloud and box plot together highlight the contrasting dynamics between <strong>Nike</strong> and <strong>Adidas</strong> in terms of customer engagement and review distribution. In the word cloud, Nike-related terms like “modernised” and “air” are prominent, suggesting that these products dominate discussions and receive significant attention. This is mirrored in the <strong>box plot</strong>, where Nike shows an irregular review distribution, with numerous outliers indicating that while some Nike products receive a large volume of reviews, others are reviewed much less frequently. In contrast, Adidas displays more balanced word frequencies in the word cloud and a more consistent review distribution across its product lines, as seen in the box plot. This suggests that <strong>Adidas products</strong> tend to attract steadier, more uniform customer engagement, without the extremes observed in Nike’s reviews.</p>
+<p>Before moving into modeling, it’s important to note that our data does not exhibit spherical dispersion. As a result, algorithms that form globular clusters, such as K-means, may not be ideal. Nonetheless, I will still test K-means to compare the clusters they form.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-15"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-15-1.png" alt="Distribution of Data Based on Sale and Listing Prices" width="672" />
+<p class="caption">
+Figure 10: Distribution of Data Based on Sale and Listing Prices
+</p>
+</div>
+</div>
+<p>The figure above shows the distribution of two key variables: <strong>Listing Price</strong> and <strong>Sale Price</strong>. These variables are essential for analyzing pricing strategies and product performance, and they play a crucial role in forming clusters to understand business dynamics in retail and e-commerce.</p>
+<h1 id="building-clusters-with-k-means">Building Clusters with K-means</h1>
+<p>First, the data was scaled to minimize the impact of varying units across different variables. The following variables were initially tested:</p>
+<ul>
+<li>Sale Price</li>
+<li>Listing Price</li>
+<li>Discount</li>
+<li>Ratings</li>
+<li>Number of Reviews</li>
+</ul>
+<p>As a reminder, variables where the Listing Price was 0 were adjusted to match the Sale Price, accounting for any available Discount.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-16-1.png" alt="Elbow Method for Determining the Optimal Number of Clusters on K-means algorithm" width="624" />
+<p class="caption">
+Figure 11: Elbow Method for Determining the Optimal Number of Clusters on K-means algorithm
+</p>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-17"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-17-1.png" alt="K-means Clusters" width="624" />
+<p class="caption">
+Figure 12: K-means Clusters
+</p>
+</div>
+</div>
+<p>The elbow method suggests that two clusters are optimal for this dataset. The K-means algorithm was applied to the scaled data, resulting in two distinct clusters. The plot shows the distribution of data points based on Sale Price and Listing Price, with each point colored according to its assigned cluster. While the two clusters exhibit a roughly globular dispersion, the data appears to have more complexity and does not fully adhere to this structure, indicating that K-means may not be the best algorithm to capture the underlying characteristics of the products.</p>
+<h1 id="building-clusters-with-hdbscan">Building Clusters with HDBSCAN</h1>
+<p>The HDBSCAN algorithm identified 10 distinct clusters and 972 points considered noise. Noise points are those that do not fit well into any of the formed clusters. The sizes of these clusters vary significantly, which is typical for density-based algorithms like HDBSCAN.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-18"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-18-1.png" alt="HDBSCAN Cluster Plot Showing Consistent Branches" width="624" />
+<p class="caption">
+Figure 13: HDBSCAN Cluster Plot Showing Consistent Branches
+</p>
+</div>
+</div>
+<p>For instance, Cluster 4 is the largest, containing 930 objects, indicating a region of high density. In contrast, Cluster 5 has only 12 objects, suggesting a region of much lower density. Interestingly, Cluster 0 represents noise, with 972 points, indicating a significant portion of the data does not clearly belong to any cluster. The remaining clusters capture variations in sale and listing prices, reviews, and ratings.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-19"></span>
+<img src="eda-clustering-data_files/figure-html5/unnamed-chunk-19-1.png" alt="HDBSCAN Clusters" width="624" />
+<p class="caption">
+Figure 14: HDBSCAN Clusters
+</p>
+</div>
+</div>
+<p>The maximum sale prices across clusters range from $3,197 in smaller clusters up to
+$36,500 in the noise points. Cluster 4 stands out with its large number of reviews and higher average rating of 3.9, while Cluster 5 has no reviews or ratings, indicating limited customer interaction. Clusters like Cluster 1 and Cluster 2 are smaller in size, with moderate sale prices and no significant discounts.</p>
+<p>Table summarizing the clusters formed by HDBSCAN:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b232499afb4f3de953ad" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b232499afb4f3de953ad">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Clusters":[0,1,2,3,4,5,6,7,8,9,10],"N":[972,10,16,187,930,12,14,398,700,11,18],"Max Sale Price":[36500,24995,11997,16995,19999,4799,7799,5399,4999,7799,7799],"Min Sale Price":[449,21995,9597,3197,1299,2149,7199,1679,1399,6599,6599],"Max Listing Price":[36500,24995,16995,16995,19999,7999,12999,8999,9999,12999,12999],"Min Listing Price":[899,21995,13995,3995,1299,4299,11999,2799,2799,10999,10999],"Max Discount":[60,0,0,0,0,50,40,40,50,40,40],"Average Reviews":[48,1,0,0,32,31,88,49,49,10,32],"Average Rating":[2.9,0,0,0,3.9,0,4,3.7,3.6,2.9,4.6]},"columns":[{"id":"Clusters","name":"Clusters","type":"numeric"},{"id":"N","name":"N","type":"numeric"},{"id":"Max Sale Price","name":"Max Sale Price","type":"numeric"},{"id":"Min Sale Price","name":"Min Sale Price","type":"numeric"},{"id":"Max Listing Price","name":"Max Listing Price","type":"numeric"},{"id":"Min Listing Price","name":"Min Listing Price","type":"numeric"},{"id":"Max Discount","name":"Max Discount","type":"numeric"},{"id":"Average Reviews","name":"Average Reviews","type":"numeric"},{"id":"Average Rating","name":"Average Rating","type":"numeric"}],"defaultPageSize":11,"dataKey":"60989af13ddae92f3e7dedf8456673f5"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<h1 id="conclusion">Conclusion</h1>
+<p>In conclusion, HDBSCAN effectively identifies regions of varying density in the dataset, capturing both high and low-density clusters. This clustering offers valuable insights into different pricing strategies and product performance, where larger clusters indicate products with higher customer engagement and more stable pricing, while smaller clusters may indicate niche products or items with less market activity. The noise points, accounting for a large proportion, might represent outliers or products that don’t fit well into the overall market patterns.</p>
+<p>In a real-world scenario, I would delve deeper into the modeling process. It would be particularly interesting to model the brands separately to enable direct comparisons, but I’ll save that exploration for another time, as this post is already quite extensive, but that was it!</p>
+<p><strong>Note</strong>: As you may have noticed, exploratory data analysis has been a topic I’ve really enjoyed lately, and I plan to share more posts on this subject in the future.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

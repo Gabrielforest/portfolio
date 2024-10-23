@@ -1,0 +1,764 @@
+---
+title: "EDA + Clustering Data"
+description: |
+  Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)
+author:
+  - name: Gabriel de Freitas Pereira
+    url: {}
+date: 2024-10-22
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+library( skimr )
+library( tidyverse )
+library( reactable )
+library( alluvial )
+library( tidytext )
+library( patchwork )
+library( wordcloud )
+library( reshape2 )
+library( caret )
+library( dbscan )
+library( scales )
+library( ggtext )
+
+format_labels <- function( x ) {
+  ifelse( x >= 1e6, 
+          paste0( formatC( x / 1e6, format = "f", digits = 1 ), "M" ),
+          ifelse( x >= 1e3,
+                  paste0( formatC( x / 1e3, format = "f", digits = 1 ), "K" ),
+                  as.character( x ) ) )
+}
+
+knitr::opts_chunk$set( echo = TRUE )
+#knitr::opts_chunk$set( fig.align = "center" )
+brands <- read.csv( "Adidas Vs Nike.csv" )
+```
+
+# Introduction
+
+Hi there! It's been a while since my last post, and I'm excited to share an analysis 
+I've been working on as part of my new journey in pursuing a Master's degree in Computer Science at the same 
+university where I completed my undergraduate studies (UFSCar).
+
+The first course I took in this program was focused on **Unsupervised and Semi-supervised Machine Learning**. It’s been a fascinating experience so far, and I’ve learned some interesting techniques that I’m eager to explore in this post. Specifically, I’ll be using **K-means** and **Hierarchical Density-Based Spatial Clustering of Applications with Noise (HDBSCAN)** in order to create clusters and identify patterns in products from Adidas and Nike.
+
+# Dataset
+
+For this analysis, I used a dataset that contains detailed information on sales and other relevant aspects of Adidas and Nike products. The dataset consists of 3,268 products from both brands, with 12 attributes related to these products. You can access this dataset for free on Kaggle via this [link](https://www.kaggle.com/datasets/kaushiksuresh147/adidas-vs-nike).
+Here it is the overview of it:
+
+```{r, echo = FALSE}
+skimr::skim( brands )
+```
+
+# Exploratory Data Analysis
+
+I started by creating visualizations that focus on the Sale Price and Listing Price distributions. By overlaying these histograms, we aim to identify patterns in pricing strategies, such as differences in pricing ranges, which can provide valuable insights into market behavior.
+
+```{r, fig.width=8, fig.height=5, echo=FALSE, fig.cap="Comparative Analysis of Sale Price vs Listing Price for Adidas and Nike"}
+
+brands %>% 
+  ggplot( ) +
+  geom_histogram( aes( x = Sale.Price, fill = "Sale Price" ), bins = 20, binwidth = 500, alpha = 0.5, position = "identity" ) +
+  geom_histogram( aes( x = Listing.Price, fill = "Listing Price" ), bins = 30, alpha = 0.5, binwidth = 500, position = "identity" ) +
+  theme_minimal( ) +
+  theme( panel.grid.major.x = element_blank( ), 
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 0.5, 0.5, "lines") ),
+         plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.1 ), 
+                                                         family = "Optima", 
+                                                         lineheight = 1.1, 
+                                                         margin = margin( 1, 0.5, 1, 0.5, "lines") )
+         ) +
+  labs( x = "", y = "Count", 
+        title = "Comparative Analysis: <span style='color:blue'>Sale Price</span> vs <span style='color:grey'>Listing Price</span>",
+        subtitle = "A detailed view of price distributions in the market." ) +
+  scale_fill_manual( values = c( "Sale Price" = "blue", "Listing Price" = "grey" ) ) +
+  scale_x_continuous( labels = scales::dollar_format( ), breaks = c( seq( 0, 45000, 5000 ) ) ) +
+  guides( fill = guide_legend( title = NULL ) ) 
+```
+
+Before diving deeper into this, I’d like to review the other variables. This might help on identifying any inconsistencies or elements that may not be useful for the analysis. 
+
+```{r, fig.width=10, fig.height=5, echo=FALSE, fig.cap="Frequency of Brand Categories"}
+brands %>%
+  count( Brand, sort = TRUE ) %>%
+  mutate( Brand = fct_reorder( Brand, n ),
+          label = format_labels( n ) ) %>%
+  ggplot( aes( Brand, n ) ) +
+  geom_col( fill = "#CCB5F2" ) +
+  coord_flip( ) +
+  theme_light( ) +
+  theme( panel.grid.major.x = element_blank( ), 
+         legend.position = "none", axis.text.x = element_blank( ),
+         plot.title = ggtext::element_textbox_simple( size = rel( 2 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 0.5, 0.5, "lines") ),
+         plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.2 ), 
+                                                         family = "Optima", 
+                                                         lineheight = 1.1, 
+                                                         margin = margin( 1, 0.5, 1, 0.5, "lines") )
+         ) +
+  labs( x = NULL, y = "Count", title = "Brand Categories Available in the Dataset", 
+        subtitle = "Apparently the product stored as <i>Adidas Adiddas Originals</i> should be called <i>Adidas Originals</i>." ) +
+  scale_colour_identity( ) +
+  ggtext::geom_textbox( aes( label = paste0( "<span style='font-size:20pt'>", label, "</span>" )
+                             , halign = case_when( n > 100  ~ 1,
+                                                   n < 100 ~ 1.7,
+                                                   TRUE ~ 2 )
+                             , colour = case_when( n < 100 ~ "darkgrey",
+                                                   TRUE ~ "white" ) ),
+                        size = 5, hjust = 1, 
+                        fill = NA, box.colour = NA,
+                        family = "Optima", fontface = "bold" ) 
+
+```
+
+With the insight brought by the visualization above this product called *Adidas Adidas Originals* was reassigned for the correct category called *Adidas Originals*. This way we are going to remain with only 4 categories instead of 5 given the inconsistency found in the Brand assignment. 
+
+```{r, fig.width=8, fig.height=5, echo=FALSE, fig.cap="Comparative Analysis of Sale Price vs Listing Price by Brand"}
+
+brands[ brands$Brand == "Adidas Adidas ORIGINALS", 6 ] <- "Adidas ORIGINALS"
+
+brands %>% 
+  ggplot( ) +
+  geom_histogram( aes( x = Sale.Price, fill = "Sale Price" ), bins = 20, binwidth = 500, alpha = 0.5, position = "identity" ) +
+  geom_histogram( aes( x = Listing.Price, fill = "Listing Price" ), bins = 30, alpha = 0.5, binwidth = 500, position = "identity" ) +
+  facet_wrap( vars( Brand ) ) +
+  theme_minimal( ) +
+  theme( panel.grid.major.x = element_blank( ), 
+         panel.grid.major.y = element_blank( ),
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 0.5, 0.5, "lines") ),
+         plot.subtitle = ggtext::element_textbox_simple( #size = rel( 1.1 ), 
+                                                         family = "Optima", 
+                                                         #lineheight = 1.1, 
+                                                         margin = margin( 1, 0.5, 1, 0.5, "lines") )
+         ) +
+  labs( x = "", y = "Count", 
+        title = "Comparative Analysis: <span style='color:blue'>Sale Price</span> vs <span style='color:grey'>Listing Price</span>",
+        subtitle = "A comprehensive overview of price distributions in the market and their respective segments" ) +
+  scale_fill_manual( values = c( "Sale Price" = "blue", "Listing Price" = "grey" ) ) +
+  scale_x_continuous( labels = scales::dollar_format( ) ) +
+  guides( fill = guide_legend( title = NULL ) ) 
+```
+
+After visualizing the information contained in the *Figure 3*, a couple of interesting questions come to mind:
+
+    - How many products have a Listing Price higher than the Sale Price?
+
+```{r, fig.width=12, fig.height=5, echo = FALSE, fig.cap="Comparison of Listing Price vs Sale Price by Brand"}
+brands[ brands$Listing.Price > 0, ] %>% 
+  mutate( higher_listing_price_than_sale_price = case_when( Sale.Price < Listing.Price ~ 1, TRUE ~ 0 ) )  %>%
+  group_by( Brand ) %>%
+  summarise( total = n( ),
+             count_higher_listing_price = sum( higher_listing_price_than_sale_price ),
+             proportion_higher = round( ( count_higher_listing_price / total ) * 100 ),
+             proportion_lower = 100 - proportion_higher ) %>%
+  ungroup( ) %>%
+  mutate( Brand = factor( Brand, levels = Brand[ order( proportion_higher ) ] ) ) %>%
+  pivot_longer( cols = c( "proportion_higher", "proportion_lower" ), names_to = "category", values_to = "proportion" ) %>% 
+  ggplot( aes( alpha = proportion, fill = category, y = proportion, x = Brand ) ) +
+  geom_bar( position = "stack", stat = "identity" ) +
+  theme_minimal( ) +
+  scale_alpha( range = c( 0.2, 0.8 ) ) +
+  coord_flip( ) +
+  xlab( "" ) +
+  ylab( "" ) +
+  labs( title = "<span style='color:#50257B'>Listing Price Greater than Sale Price</span> x <span style='color:#FBE4AD'>Listing Price Equal to Sale Price</span>",
+        subtitle = "Nike products were all sold below the listing price when it was available in the dataset.
+The segment <i>Adidas ORIGINALS</i> presented products with prices equal to the listing price 31% of the time. In other words, this segment had the largest number of products without a final price change, indicating an appropriate market price where price adjustments were not necessary to make sales.
+
+<i style='font-size: 17px;'>*This figure presents only data with available listing prices.</i>" ) +
+  theme_minimal( ) +
+  theme( panel.grid.major.x = element_blank( ), 
+         panel.grid.major.y = element_blank( ),
+         axis.text.x = element_blank( ),
+         axis.text.y = element_text( size = 12 ),
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 2 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.2 ), 
+                                                         family = "Optima", 
+                                                         lineheight = 1.1, 
+                                                         margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         strip.text = ggtext::element_textbox_simple( size = rel( 1.1 ), 
+                                                      family = "Optima", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ) 
+         ) +
+  ggtext::geom_textbox( aes( label = paste0( proportion, "%" ) ),
+                        size = 6, 
+                        halign = 1 , hjust = 1,
+                        fill = NA, box.colour = NA,
+                        family = "Optima", colour = "#FFFFFF", fontface = "bold" ) +
+  scale_y_continuous( labels = function( x ) paste0( x, "%" ) ) +
+  scale_fill_manual( values = c( "proportion_higher" = "#50257B", "proportion_lower" = "#FBE4AD" ) )
+```
+  
+    - Why is there a difference between Listing Price and Sale Price? Is it always due to discounts?
+
+Well no, among the 876 products with an available Listing Price and no explicit discounts, 217 have a Sale Price lower than the Listing Price. This suggests that the difference isn't always due to planned discounts, leading to a few possible explanations:
+
+- Unrecorded Discounts: Discounts may have been applied but not properly documented in the data.
+- Dynamic Pricing: Prices may vary due to demand, stock, or customer behavior, without being categorized as discounts.
+- System or Labeling Errors: Price discrepancies could result from labeling or system errors.
+- Competitive Pricing: Companies may lower prices to stay competitive, even without formal discounts.
+- Promotions: Other forms of price reductions might not be labeled as discounts but still lower the sale price.
+- Market Value Changes: Prices might be reduced over time to reflect changes in demand or product value.
+
+Which brand segment is most affected by these unrecorded changes?
+
+```{r}
+reactable( 
+  brands %>%
+  group_by( Brand ) %>%
+  filter( Listing.Price > Sale.Price, Discount == 0 ) %>%
+  count( )
+)
+```
+
+As seen above, all products that do not show a discount in the data but had changes in the final sale price are Nike products. In fact, every Nike product with a listing price underwent adjustments. This suggests either that these products do not have the correct listing price, or the discount is not being recorded for these products (the latter is more likely, as no Nike product in the dataset has a documented discount).
+
+    - Are there any products with a Sale Price higher than the Listing Price?
+    
+```{r, echo = FALSE}
+reactable(
+  brands %>% 
+  mutate( higher_sale_price_than_listing_price =  
+            case_when( Sale.Price > Listing.Price ~ 1, TRUE ~ 0 ) )  %>%
+  group_by( Brand ) %>%
+  summarise( total = n( ),
+             count_higher_sale_price = sum( higher_sale_price_than_listing_price ),
+             proportion_higher = round( ( count_higher_sale_price / total) * 100, 2 ) )
+)
+```
+
+This is unexpected, right? The Listing Price should be equal to or higher than the Sale Price, not the other way around. I'll take a closer look at these Nike products.
+
+```{r}
+reactable( 
+  brands %>% 
+  select( Product.Name, Listing.Price, Sale.Price, Discount ) %>% 
+  filter( Sale.Price > Listing.Price ), defaultPageSize = 5
+)
+```
+
+An intriguing issue in this table is that these products with higher sale price have a listing price of 0, which suggests a potential error in the data generation process, as it's unlikely for a product to be listed without a price. To correct this, I will assign the sale price value to these cases, adjusting based on the discount column (if available):
+
+```{r}
+brands_input <- 
+  brands %>%
+  mutate( Listing.Price = 
+            case_when( 
+              Listing.Price == 0 & Discount == 0 ~ Sale.Price,
+              Listing.Price == 0 & Discount > 0 ~ Sale.Price * Discount / 100,
+              TRUE ~ Listing.Price  
+          )
+  )
+```
+
+As I mentioned before, none of the Nike products have a discount available in the dataset. But what about the **Adidas products**?
+
+```{r, echo = FALSE, fig.cap="Distribution of Discounts Across Adidas Segments"}
+# Apenas descontos acima de 30% foram considerados
+brands[ brands$Brand == "Adidas Adidas ORIGINALS", 6 ] <- "Adidas ORIGINALS"
+data <- 
+  brands %>%
+  select( Listing.Price, Sale.Price, Rating, Discount, Brand ) %>% 
+  group_by( Brand ) %>% 
+  count( Discount ) %>% 
+  filter( Discount > 20 )
+
+data <- as.data.frame( data )
+data[ data$Brand == "Adidas CORE / NEO", 1 ] <- "CORE/NEO"
+data[ data$Brand == "Adidas ORIGINALS", 1 ] <- "ORIGINALS"
+data[ data$Brand == "Adidas SPORT PERFORMANCE", 1 ] <- "SPORT"
+data[ , 2 ] <- paste0( data[, 2 ], "%" )
+data$Brand <- as.factor( data$Brand )
+data$Discount <- as.factor( data$Discount )
+data$n <- as.numeric( data$n )
+
+alluvial( data[, 1:2 ],
+          freq = data$n,
+          xw = 0.0,
+          alpha = 0.7,
+          gap.width = 0.1,
+          col = c( "#A3C1E0", "#7395C4", "#405580", "#1A1A1A" ),
+          border = "white",
+          layer = data$Discount,
+          axis_labels = c( "Adidas", "Discount" ),
+          cex = 0.6
+        )
+```
+
+The flow chart from the *Figure 5* shows that **CORE / NEO** segment had the highest percentage of products with discounts over 30%. Ok, so let's explore ratings description and reviews before building our product clusters.
+
+```{r, echo = FALSE, fig.width=10, fig.height=5, fig.cap="Distribution of Ratings Across Segments"}
+
+brands_input %>%
+  select( Listing.Price, Sale.Price, Rating, Discount, Brand ) %>% 
+  group_by( Brand ) %>%
+  summarise( Avg_Rating = round( mean( Rating ), 2 ), 
+             SD = round( sd( Rating ), 2 ), 
+             n = n( ) ) %>%
+  arrange( Brand ) %>% 
+  ggplot( aes( reorder( Brand, Avg_Rating ), Avg_Rating ) ) +
+  geom_bar( aes( alpha = Avg_Rating ), fill = "#FFD919" , stat = "identity" ) +
+  geom_errorbar( aes( ymin = Avg_Rating - SD, ymax = Avg_Rating + SD ), width = 0.1, col = "gray" ) +
+  scale_alpha( range = c( 0.6, 1 ) ) +
+  coord_flip( ) +
+  xlab( "" ) +
+  ylab( "" ) +
+  labs( title = "<span style='color:#FFD919'>Brand Ratings</span> and their Segments", 
+        subtitle = "Nike had the lowest average rating, while the highest average was observed from its competitor, specifically the Adidas CORE / NEO segment." ) +
+  theme_minimal( ) +
+  theme( #panel.grid.major.x = element_blank( ),
+         #panel.grid.major = element_blank( ),
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 2 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.2 ), 
+                                                         family = "Optima", 
+                                                         lineheight = 1.1, 
+                                                         margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         strip.text = ggtext::element_textbox_simple( size = rel( 1.1 ), 
+                                                      family = "Optima", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ) 
+         ) +
+  ggtext::geom_textbox( aes( label = Avg_Rating ), 
+                        size = 6, halign = 1, hjust = 1, vjust = 0.2, 
+                        fill = NA, box.colour = NA, 
+                        family = "Optima", colour = "#FFFFFF", fontface = "bold" ) +
+  scale_y_continuous( limits  = c( 0, 5 ) )
+
+```
+
+The difference between the brands' ratings is notable; however, it is important to point out that they have different numbers of products, with Nike having the fewest representatives in the dataset, which may explain the high standard deviation observed. Additionally, the dataset includes product descriptions, and given that it contains only shoes, it would be interesting to explore the common words used in these descriptions to gain insights into product characteristics or marketing trends.
+
+```{r, echo = FALSE, fig.width=12, fig.height=8, fig.cap="Frequency of Words by Brand"}
+# Your plot code here
+
+words <- 
+  brands %>% 
+  mutate( line_number = 1:nrow( brands ) ) %>% 
+  unnest_tokens( word, Description )
+
+words_per_brand <- 
+  suppressMessages(
+    words %>% 
+    count( word, Brand, sort = TRUE ) %>% 
+    anti_join( get_stopwords( ), by = join_by( word ) ) %>% 
+    ungroup( )
+  )
+
+nike <- 
+  words_per_brand %>% 
+  filter( Brand == "Nike" ) %>% 
+  mutate( word = reorder( word, n ) ) %>% 
+  slice_max( n, n = 10 ) %>% 
+  ggplot( aes( n, word ) ) +
+  geom_col( aes( alpha = n ), fill = "#142302" ) +
+  scale_alpha( range = c( 0.2, 0.7 ) )  +
+  labs( x = "", y = "", title = "Nike" ) +
+  theme_minimal( ) +
+  theme( panel.grid.major.x = element_blank( ),
+         panel.grid.major = element_blank( ),
+         axis.text.x = element_blank( ),
+         axis.text.y = element_text( size = 12 ),
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         ) +
+  ggtext::geom_textbox( aes( label = n ), 
+                        size = 6, halign = 1, hjust = 1, #vjust = 0.2, 
+                        fill = NA, box.colour = NA, 
+                        family = "Optima", colour = "#FFFFFF", fontface = "bold" ) +
+  scale_x_continuous( limits = c( 0, 1100 ) )
+
+adidas_neo <- 
+  words_per_brand %>% 
+  filter( Brand == "Adidas CORE / NEO" ) %>% 
+  mutate( word = reorder( word, n ) ) %>% 
+  slice_max( n, n = 10 ) %>% 
+  ggplot( aes( n, word ) ) +
+  geom_col( aes( alpha = n ), fill = "#142302" ) +
+  scale_alpha( range = c( 0.2, 0.7 ) )  +
+  labs( x = "", y = "", title = "Adidas NEO / CORE" ) +
+  theme_minimal( ) +
+  theme( panel.grid.major.x = element_blank( ),
+         panel.grid.major = element_blank( ),
+         axis.text.x = element_blank( ),
+         axis.text.y = element_text( size = 12 ),
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         ) +
+  ggtext::geom_textbox( aes( label = n ), 
+                        size = 6, halign = 1, hjust = 1, #vjust = 0.2, 
+                        fill = NA, box.colour = NA, 
+                        family = "Optima", colour = "#FFFFFF", fontface = "bold" ) +
+  scale_x_continuous( limits = c( 0, 1100 ) )
+
+adidas_originals <- 
+  words_per_brand %>% 
+  filter( Brand == "Adidas ORIGINALS" ) %>% 
+  mutate( word = reorder( word, n ) ) %>% 
+  slice_max( n, n = 10 ) %>% 
+  ggplot( aes( n, word ) ) +
+  geom_col( aes( alpha = n ), fill = "#142302" ) +
+  scale_alpha( range = c( 0.2, 0.7 ) )  +
+  labs( x = "", y = "", title = "Adidas ORIGINALS" ) +
+  theme_minimal( ) +
+  theme( panel.grid.major.x = element_blank( ),
+         panel.grid.major = element_blank( ),
+         axis.text.x = element_blank( ),
+         axis.text.y = element_text( size = 12 ),
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         ) +
+  ggtext::geom_textbox( aes( label = n ), 
+                        size = 6, halign = 1, hjust = 1, #vjust = 0.2, 
+                        fill = NA, box.colour = NA, 
+                        family = "Optima", colour = "#FFFFFF", fontface = "bold" ) +
+  scale_x_continuous( limits = c( 0, 1100 ) )
+
+adidas_sport <- 
+  words_per_brand %>% 
+  filter( Brand == "Adidas SPORT PERFORMANCE" ) %>% 
+  mutate( word = reorder( word, n ) ) %>% 
+  slice_max( n, n = 10 ) %>% 
+  ggplot( aes( n, word ) ) +
+  geom_col( aes( alpha = n ), fill = "#142302" ) +
+  scale_alpha( range = c( 0.2, 0.7 ) )  +
+  labs( x = "", y = "", title = "Adidas SPORT PERFORMANCE" ) +
+  theme_minimal( ) +
+  theme( panel.grid.major.x = element_blank( ),
+         panel.grid.major = element_blank( ),
+         axis.text.x = element_blank( ),
+         axis.text.y = element_text( size = 12 ),
+         legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         ) +
+  ggtext::geom_textbox( aes( label = n ), 
+                        size = 6, halign = 1, hjust = 1, #vjust = 0.2, 
+                        fill = NA, box.colour = NA, 
+                        family = "Optima", colour = "#FFFFFF", fontface = "bold" ) +
+  scale_x_continuous( limits = c( 0, 1100 ) )
+
+
+adidas_neo + adidas_originals + adidas_sport + nike + plot_layout( ncol = 2 )
+```
+
+Naturally, the first question that arises from this plot is whether there’s any relationship between the words used and the product ratings. To explore this further, I conducted an analysis and visualized the findings in the form of this eye-catching word cloud:
+
+```{r, echo = FALSE, fig.cap="Frequency of Words by Brand"}
+
+brands_line_number <- 
+  brands %>% 
+  mutate( line_number = 1:nrow( brands ) )
+
+suppressWarnings(
+  brands_line_number %>%
+  unnest_tokens( word, Description ) %>%       
+  filter( Reviews > 10 ) %>% 
+  select( word, line_number, Rating ) %>% 
+  group_by( word ) %>%
+  summarise( frequency = n( ), avg_rating = round( mean( Rating ), 2 ) ) %>% 
+  anti_join( get_stopwords( ), by = "word" ) %>% 
+  mutate( classification = case_when( avg_rating < 1 ~ "< 1",
+                                      avg_rating > 4 ~ "> 4",
+                                      .default = "middle" ) ) %>% 
+  acast( word ~ classification, value.var = "frequency", fill = 0 ) %>%
+  comparison.cloud( colors = c( "#D54444", "#018CA6" ),
+                    max.words = 100, 
+                    title.colors = c( "#D54444", "#018CA6", "black" ),
+                    title.bg.colors = c( "#F4D3CE", "#EAF1F9", "lightgrey" ) )
+)
+```
+
+```{r, echo = FALSE, fig.width= 9, fig.height = 5, fig.cap="Distribution of Reviews by Brand"}
+brands %>% 
+  ggplot( aes( Brand, Reviews, fill = Brand ) ) +
+  geom_boxplot(  ) +
+  stat_boxplot( geom = "errorbar", width = 0.25 ) +
+  scale_fill_manual( values = c( "Adidas CORE / NEO" = "#FFB996", 
+                                 "Adidas ORIGINALS" = "#F67E7D",
+                                 "Adidas SPORT PERFORMANCE" = "#843B62",
+                                 "Nike" = "#74546A" ) ) +
+  theme_minimal( ) +
+  theme( 
+    panel.grid.minor = element_blank(), 
+    legend.position = "none",
+    plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                 face = "bold", 
+                                                 family = "Gill Sans", 
+                                                 lineheight = 1.2, 
+                                                 margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+    plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.1 ), 
+                                                    family = "Optima", 
+                                                    lineheight = 1.1, 
+                                                    margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+    axis.ticks.y = element_blank( )  # Optionally removes the y-axis ticks as well
+  ) +
+  labs( title = "Reviews: 
+                  <i><span style='color:#FFB996'>CORE/NEO</span></i>,
+                  <i><span style='color:#F67E7D'>ORIGINALS</span></i>,
+                  <i><span style='color:#843B62'>SPORT</span></i> e
+                  <i><span style='color:#74546A'>Nike</span></i>", 
+        subtitle = "Nike presents the most irregular distribution of reviews, indicating that some products are frequently reviewed while others have no reviews.",
+        y = "", x = "" )
+
+
+```
+
+The word cloud and box plot together highlight the contrasting dynamics between **Nike** and **Adidas** in terms of customer engagement and review distribution. In the word cloud, Nike-related terms like "modernised" and "air" are prominent, suggesting that these products dominate discussions and receive significant attention. This is mirrored in the **box plot**, where Nike shows an irregular review distribution, with numerous outliers indicating that while some Nike products receive a large volume of reviews, others are reviewed much less frequently. In contrast, Adidas displays more balanced word frequencies in the word cloud and a more consistent review distribution across its product lines, as seen in the box plot. This suggests that **Adidas products** tend to attract steadier, more uniform customer engagement, without the extremes observed in Nike’s reviews.
+
+Before moving into modeling, it’s important to note that our data does not exhibit spherical dispersion. As a result, algorithms that form globular clusters, such as K-means, may not be ideal. Nonetheless, I will still test K-means to compare the clusters they form.
+
+```{r, fig.width=7, fig.height=4, echo = FALSE, fig.cap="Distribution of Data Based on Sale and Listing Prices"}
+brands_input %>% ggplot( aes( Sale.Price, Listing.Price ) ) +
+  geom_point( aes( color = Brand ) ) +
+  theme_minimal( ) +
+  theme( legend.title = element_blank( ), 
+         panel.grid.minor = element_blank( ),  
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin(1, 0.5, 1, 0.5, "lines")
+        ), 
+        plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.1 ), 
+                                                    family = "Optima", 
+                                                    lineheight = 1.1, 
+                                                    margin = margin( 1, 0.5, 1, 0.5, "lines" ) ) ) +
+  labs( title = "Distribution of Data Based on Sale and Listing Prices", 
+        subtitle = "The brand segments <i>SPORT PERFORMANCE</i> and <i>ORIGINALS</i> show similar values",
+        y = "Listing Price", 
+        x = "Sale Price" ) +
+  scale_y_continuous( labels = scales::dollar_format( ) ) +
+  scale_x_continuous( labels = scales::dollar_format( ) )
+```
+
+The figure above shows the distribution of two key variables: **Listing Price** and **Sale Price**. These variables are essential for analyzing pricing strategies and product performance, and they play a crucial role in forming clusters to understand business dynamics in retail and e-commerce.
+
+# Building Clusters with K-means
+
+First, the data was scaled to minimize the impact of varying units across different variables. The following variables were initially tested:
+
+- Sale Price
+- Listing Price
+- Discount
+- Ratings
+- Number of Reviews
+
+As a reminder, variables where the Listing Price was 0 were adjusted to match the Sale Price, accounting for any available Discount.
+
+```{r, echo = FALSE, fig.cap="Elbow Method for Determining the Optimal Number of Clusters on K-means algorithm"}
+# k-means
+set.seed( 123 )
+
+data_for_clustering <- 
+  brands_input %>%
+  select( Sale.Price, Listing.Price, Discount, Rating, Reviews )
+
+# Standardization or Z-score normalization:
+
+# center: Centers the data. Centering a variable means subtracting its mean from each observation,
+# resulting in a transformed variable with a mean of zero.
+# scale: Scales the data. Scaling a variable typically means dividing each observation by the variable's 
+# standard deviation. After scaling, the variable typically has a standard deviation of one.
+preprocessed_data <- preProcess( data_for_clustering, method = c( "center", "scale" ) )
+scaled_data <- predict( preprocessed_data, data_for_clustering )
+
+# Store the sum of squared errors (SSE) for each k:
+sse <- numeric( 10 )   
+
+
+for( k in 1:10 ) {
+  model <- suppressWarnings( kmeans( scaled_data, centers = k, nstart = 25 ) )
+  sse[ k ] <- model$tot.withinss
+}
+
+k_values <- 1:10
+elbow_plot <- data.frame( k = k_values, SSE = sse )
+ggplot( elbow_plot, aes( x = k, y = SSE ) ) +
+  geom_line( ) +
+  geom_point( ) +
+  scale_x_continuous( breaks = k_values ) +
+  theme_minimal( ) +
+  theme( legend.title = element_blank( ), 
+         panel.grid.minor = element_blank( ), 
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.1 ), 
+                                                         family = "Optima", 
+                                                         lineheight = 1.1, 
+                                                         margin = margin( 1, 0.5, 1, 0.5, "lines") )
+         ) +
+  labs( title = "Elbow Method for Determining k",
+        subtitle = "k = 2 appears to be the ideal number of clusters.",
+        x = "Clusters (k)",
+        y = "Total Sum of Squares (SSE)" )
+
+```
+
+```{r, echo = FALSE, fig.cap="K-means Clusters"}
+# Perform k-means clustering with 2 clusters
+k <- 2
+kmeans_result <- kmeans( scaled_data, centers = k )
+
+# Add cluster assignments to the original data
+clustered_data <- brands_input %>% bind_cols( cluster = kmeans_result$cluster )
+
+ggplot( clustered_data, aes( x = Sale.Price, y = Listing.Price, color = as.factor( cluster ) ) ) +
+  geom_point( ) +
+  scale_color_manual( values = c( "blue", "red" ) ) +
+  scale_y_continuous( labels = scales::dollar_format( ) ) +
+  scale_x_continuous( labels = scales::dollar_format( ) ) +
+  theme_minimal( ) +
+  theme( 
+         panel.grid.minor = element_blank( ), 
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ), 
+                                                      face = "bold", 
+                                                      family = "Gill Sans", 
+                                                      lineheight = 1.2, 
+                                                      margin = margin( 1, 0.5, 1, 0.5, "lines") ),
+         plot.subtitle = ggtext::element_textbox_simple( size = rel( 1.1 ), 
+                                                         family = "Optima", 
+                                                         lineheight = 1.1, 
+                                                         margin = margin( 1, 0.5, 1, 0.5, "lines") )
+         ) +
+  labs( title = "Clusters Formed Using the K-means Algorithm",
+        x = "Sale Price",
+        y = "Listing Price",
+        color = "Clusters" ) 
+
+```
+
+The elbow method suggests that two clusters are optimal for this dataset. The K-means algorithm was applied to the scaled data, resulting in two distinct clusters. The plot shows the distribution of data points based on Sale Price and Listing Price, with each point colored according to its assigned cluster. While the two clusters exhibit a roughly globular dispersion, the data appears to have more complexity and does not fully adhere to this structure, indicating that K-means may not be the best algorithm to capture the underlying characteristics of the products.
+
+# Building Clusters with HDBSCAN
+
+The HDBSCAN algorithm identified 10 distinct clusters and 972 points considered noise. Noise points are those that do not fit well into any of the formed clusters. The sizes of these clusters vary significantly, which is typical for density-based algorithms like HDBSCAN.
+
+
+```{r, echo = FALSE, fig.cap="HDBSCAN Cluster Plot Showing Consistent Branches"}
+set.seed( 123 )
+hdbscan_result <- hdbscan( scaled_data, minPts = 10 )
+
+plot( hdbscan_result, show_flat = TRUE )
+```
+
+For instance, Cluster 4 is the largest, containing 930 objects, indicating a region of high density. In contrast, Cluster 5 has only 12 objects, suggesting a region of much lower density. Interestingly, Cluster 0 represents noise, with 972 points, indicating a significant portion of the data does not clearly belong to any cluster. The remaining clusters capture variations in sale and listing prices, reviews, and ratings.
+
+```{r, echo = FALSE, fig.cap="HDBSCAN Clusters"}
+set.seed( 123 )
+# Add HDBSCAN results to the data frame
+clustered_data$cluster <- hdbscan_result$cluster
+clustered_data$membership_prob <- hdbscan_result$membership_prob
+  
+num_clusters <- max( clustered_data$cluster )
+colors <- c( "black", "orange", "#FF4136", "#0074D9", "#2ECC40", "#FFDC00", "#FF851B", "#B10DC9", "#7FDBFF", "#F012BE", "#843B62" )
+  
+ggplot( clustered_data, aes( x = Sale.Price, y = Listing.Price, color = as.factor( cluster ), alpha = membership_prob ) ) +
+  geom_point( ) +
+  scale_color_manual( values = colors ) +
+  scale_y_continuous( labels = dollar_format( ) ) +
+  scale_x_continuous( labels = dollar_format( ) ) +
+  scale_alpha( range = c( 0.2, 1 ) ) +
+  guides( alpha = "none" ) +
+  theme_minimal( ) +
+  theme( panel.grid.minor = element_blank( ),
+         plot.title = element_textbox_simple( size = rel( 1.5 ), 
+                                              face = "bold", 
+                                              family = "Gill Sans", 
+                                              lineheight = 1.2, margin = margin(1, 0.5, 1, 0.5, "lines" ) ),
+         plot.subtitle = element_textbox_simple( size = rel( 1.1 ), 
+                                                 family = "Optima", 
+                                                 lineheight = 1.1, 
+                                                 margin = margin( 1, 0.5, 1, 0.5, "lines" ) ) ) +
+  labs( title = "Clusters formed by the HDBSCAN algorithm",
+        subtitle = "The color scale within a cluster is based on the membership value, with cluster 0 representing the noise points identified by the algorithm.",
+        x = "Sale Price",
+        y = "Listing Price",
+        color = "Clusters" )
+```
+
+The maximum sale prices across clusters range from $3,197 in smaller clusters up to 
+$36,500 in the noise points. Cluster 4 stands out with its large number of reviews and higher average rating of 3.9, while Cluster 5 has no reviews or ratings, indicating limited customer interaction. Clusters like Cluster 1 and Cluster 2 are smaller in size, with moderate sale prices and no significant discounts.
+
+Table summarizing the clusters formed by HDBSCAN:
+
+```{r, echo = FALSE}
+summary_hdbscan_clusters <- 
+  clustered_data %>%
+  group_by( cluster ) %>% 
+  summarise( n = length( cluster ),
+             max_sale = max( Sale.Price ), 
+             min_sale = min( Sale.Price ),
+             max_listing = max( Listing.Price ),
+             min_listing = min( Listing.Price ),
+             max_discount = max( Discount ),
+             mean_reviews = round( mean( Reviews ) ),
+             mean_rating = round( mean( Rating ), 1 ) )
+
+colnames( summary_hdbscan_clusters ) <- c( "Clusters", "N", "Max Sale Price", "Min Sale Price",
+                                           "Max Listing Price", "Min Listing Price", "Max Discount",
+                                           "Average Reviews", "Average Rating" )
+
+reactable( summary_hdbscan_clusters, defaultPageSize = 11 )
+```
+
+# Conclusion
+
+In conclusion, HDBSCAN effectively identifies regions of varying density in the dataset, capturing both high and low-density clusters. This clustering offers valuable insights into different pricing strategies and product performance, where larger clusters indicate products with higher customer engagement and more stable pricing, while smaller clusters may indicate niche products or items with less market activity. The noise points, accounting for a large proportion, might represent outliers or products that don’t fit well into the overall market patterns.  
+
+In a real-world scenario, I would delve deeper into the modeling process. It would be particularly interesting to model the brands separately to enable direct comparisons, but I'll save that exploration for another time, as this post is already quite extensive, but that was it! 
+
+**Note**: As you may have noticed, exploratory data analysis has been a topic I’ve really enjoyed lately, and I plan to share more posts on this subject in the future.
+
+
+
+
+
+
+
