@@ -41,13 +41,21 @@ brands <- read.csv( "Adidas Vs Nike.csv" )
 
 # Introduction
 
+\  
+
 Hi there! It's been a while since my last post, and I'm excited to share an analysis 
 I've been working on as part of my new journey in pursuing a Master's degree in Computer Science at the same 
 university where I completed my undergraduate studies (UFSCar).
 
 The first course I took in this program was focused on **Unsupervised and Semi-supervised Machine Learning**. It’s been a fascinating experience so far, and I’ve learned some interesting techniques that I’m eager to explore in this post. Specifically, I’ll be using **K-means** and **Hierarchical Density-Based Spatial Clustering of Applications with Noise (HDBSCAN)** in order to create clusters and identify patterns in products from Adidas and Nike.
 
+\  
+
+\    
+
 # Dataset
+
+\  
 
 For this analysis, I used a dataset that contains detailed information on sales and other relevant aspects of Adidas and Nike products. The dataset consists of 3,268 products from both brands, with 12 attributes related to these products. You can access this dataset for free on Kaggle via this [link](https://www.kaggle.com/datasets/kaushiksuresh147/adidas-vs-nike).
 Here it is the overview of it:
@@ -56,7 +64,14 @@ Here it is the overview of it:
 skimr::skim( brands )
 ```
 
+\  
+
+\    
+
+
 # Exploratory Data Analysis
+
+\  
 
 I started by creating visualizations that focus on the Sale Price and Listing Price distributions. By overlaying these histograms, we aim to identify patterns in pricing strategies, such as differences in pricing ranges, which can provide valuable insights into market behavior.
 
@@ -578,7 +593,14 @@ brands_input %>% ggplot( aes( Sale.Price, Listing.Price ) ) +
 
 The figure above shows the distribution of two key variables: **Listing Price** and **Sale Price**. These variables are essential for analyzing pricing strategies and product performance, and they play a crucial role in forming clusters to understand business dynamics in retail and e-commerce.
 
+\  
+
+\    
+
+
 # Building Clusters with K-means
+
+\    
 
 First, the data was scaled to minimize the impact of varying units across different variables. The following variables were initially tested:
 
@@ -677,7 +699,14 @@ ggplot( clustered_data, aes( x = Sale.Price, y = Listing.Price, color = as.facto
 
 The elbow method suggests that two clusters are optimal for this dataset. The K-means algorithm was applied to the scaled data, resulting in two distinct clusters. The plot shows the distribution of data points based on Sale Price and Listing Price, with each point colored according to its assigned cluster. While the two clusters exhibit a roughly globular dispersion, the data appears to have more complexity and does not fully adhere to this structure, indicating that K-means may not be the best algorithm to capture the underlying characteristics of the products.
 
+\  
+
+\    
+
+
 # Building Clusters with HDBSCAN
+
+\  
 
 The HDBSCAN algorithm identified 10 distinct clusters and 972 points considered noise. Noise points are those that do not fit well into any of the formed clusters. The sizes of these clusters vary significantly, which is typical for density-based algorithms like HDBSCAN.
 
@@ -749,7 +778,14 @@ colnames( summary_hdbscan_clusters ) <- c( "Clusters", "N", "Max Sale Price", "M
 reactable( summary_hdbscan_clusters, defaultPageSize = 11 )
 ```
 
+\  
+
+\    
+
+
 # Conclusion
+
+\  
 
 In conclusion, HDBSCAN effectively identifies regions of varying density in the dataset, capturing both high and low-density clusters. This clustering offers valuable insights into different pricing strategies and product performance, where larger clusters indicate products with higher customer engagement and more stable pricing, while smaller clusters may indicate niche products or items with less market activity. The noise points, accounting for a large proportion, might represent outliers or products that don’t fit well into the overall market patterns.  
 
