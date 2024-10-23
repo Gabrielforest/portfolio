@@ -5,15 +5,15 @@
       "title": "About this blog",
       "description": "This blog is a portfolio about my studies, mainly on data science.",
       "author": [],
-      "contents": "\nHi!\n \n \nHello, my name is Gabriel de Freitas Pereira, and I am a Forest Engineer. I began my studies in 2018 and have since been focusing data analytics. In 2019, I initiated a project aimed at identifying priority areas for the conservation of Brazil nut trees. This involved genetic and climatic analyses, and in early 2020, the project was approved. I also took the opportunity to learn R language, which has been incredibly exciting as it has allowed me to explore the field of data science.\n \nWith this blog, my primary goal is to keep myself engaged in the topic and share my insights in the context of my studies on analytics.\n\n\n\n",
-      "last_modified": "2024-10-22T19:47:07-03:00"
+      "contents": "\nHi!\n \n \nI’m a Forest Engineer with a strong interest in data analytics, visualization, and experimentation. Currently, I’m pursuing a Master’s degree in Computer Science, which allows me to deepen my expertise in these areas. Alongside my studies, I work as a Data Analyst at Uber, where I apply my analytical skills to solve complex problems and drive data-driven insights\n \nThrough this blog, my main goal is to stay connected with the community and share my insights as I continue to explore data analytics in the context of my studies.\n\n\n\n",
+      "last_modified": "2024-10-23T17:27:05-03:00"
     },
     {
       "path": "index.html",
       "title": "Gabriel's blog",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2024-10-22T19:41:41-03:00"
+      "last_modified": "2024-10-23T17:06:59-03:00"
     }
   ],
   "collections": ["posts/posts.json"]
