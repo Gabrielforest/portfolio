@@ -2,10 +2,11 @@
 title: "EDA + Clustering Data"
 description: |
   Exploratory data analysis and the application of unsupervised learning techniques (K-means and HDBSCAN)
+preview: https://github.com/Gabrielforest/portfolio/blob/main/preview_eda_hd.PNG?raw=true
 author:
   - name: Gabriel de Freitas Pereira
     url: {}
-date: 2024-10-22
+date: 2024-10-23
 output:
   distill::distill_article:
     self_contained: false
@@ -755,7 +756,7 @@ In conclusion, HDBSCAN effectively identifies regions of varying density in the 
 In a real-world scenario, I would delve deeper into the modeling process. It would be particularly interesting to model the brands separately to enable direct comparisons, but I'll save that exploration for another time, as this post is already quite extensive, but that was it! 
 
 **Note**: As you may have noticed, exploratory data analysis has been a topic I’ve really enjoyed lately, and I plan to share more posts on this subject in the future.
-
+  
 
 
 
