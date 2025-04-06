@@ -61,7 +61,7 @@ It turns out that our average is making the forecast worse in edge cases — usi
 
 That’s the reason why Ordinary Least Squares might help us — it reduces error in edge cases because linear regression doesn’t suffer from the same problem.
 
-Fortunately, there are packages that implement this idea. Here, I’m going to do that using the `qeLinKNN` function from the [`qeML`](https://cran.r-project.org/web/packages/qeML/index.html) package.
+Fortunately, there are packages that implement this idea. Here, I’m going to do that using the [`qeML`](https://cran.r-project.org/web/packages/qeML/index.html) package.
 
 ## Exploring Data
 
@@ -107,7 +107,7 @@ Apparently there is a linear relationship going on here, which might go in favor
 
 ## Model
 
-The goal here is to predict Circumference based on the variables age and Tree.
+The goal here is to predict the circumference of orange trees based on the variables age and Tree. I’ll try this using KNN, Linear Regression, and finally, a hybrid model that combines both.
 To evaluate model performance, I’ll use repeated holdout validation — calculating the MAPE (Mean Absolute Prediction Error) for each run. This helps reduce the impact of randomness in a single train/test split.
 
 Since this is a small dataset, I’ll set k = 3 for the KNN-based models.

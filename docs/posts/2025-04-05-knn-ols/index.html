@@ -2514,7 +2514,7 @@ Imagine asking someone with no data science background to guess the temperature 
 <p>But, as you can see, our prediction using KNN with K = 3 is not even close to 30.</p>
 <p>It turns out that our average is making the forecast worse in edge cases — using the highest value from our data, for example, would actually reduce the error. So, we tend to have bigger mistakes at the borders of our data when using this algorithm.</p>
 <p>That’s the reason why Ordinary Least Squares might help us — it reduces error in edge cases because linear regression doesn’t suffer from the same problem.</p>
-<p>Fortunately, there are packages that implement this idea. Here, I’m going to do that using the <code>qeLinKNN</code> function from the <a href="https://cran.r-project.org/web/packages/qeML/index.html"><code>qeML</code></a> package.</p>
+<p>Fortunately, there are packages that implement this idea. Here, I’m going to do that using the <a href="https://cran.r-project.org/web/packages/qeML/index.html"><code>qeML</code></a> package.</p>
 <h2 id="exploring-data">Exploring Data</h2>
 <p>I choose a small data set from R that contains records of the growth of orange trees 🍊:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2550,7 +2550,7 @@ $circumference
 </div>
 <p>Apparently there is a linear relationship going on here, which might go in favor to the OLS fit. Lets check it out!</p>
 <h2 id="model">Model</h2>
-<p>The goal here is to predict Circumference based on the variables age and Tree.
+<p>The goal here is to predict the circumference of orange trees based on the variables age and Tree. I’ll try this using KNN, Linear Regression, and finally, a hybrid model that combines both.
 To evaluate model performance, I’ll use repeated holdout validation — calculating the MAPE (Mean Absolute Prediction Error) for each run. This helps reduce the impact of randomness in a single train/test split.</p>
 <p>Since this is a small dataset, I’ll set k = 3 for the KNN-based models.</p>
 <p>Now, let’s compare the models:</p>
