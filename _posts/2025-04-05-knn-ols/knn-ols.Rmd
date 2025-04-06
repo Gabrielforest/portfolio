@@ -1,0 +1,130 @@
+---
+title: "KNN + OLS"
+description: |
+  Combining K - Nearest Neighbours and Linear Regression on Orange Trees growth
+author:
+  - name: Gabriel de Freitas Pereira
+    url: {}
+date: 2025-04-06
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set( echo = FALSE )
+knitr::opts_chunk$set( dev = "ragg_png", dpi = 300 )
+library( qeML )
+library( ggplot2 )
+library( dplyr )
+library( reactable )
+library( ggtext )
+library( markdown )
+```
+
+Hi!
+
+Well, this year I've been studying statistical learning during my free time — not only because I think it’s useful, but also because I feel powerful when I can predict something. Finding patterns feels like casting special spells in a game 🧙️✨ (it's exciting... but you can’t do it all the time).
+
+Most of the time, I’m building queries, doing descriptive statistics, creating data visualizations, and so on. These things can be complementary, depending on the scenarios you're working with and the problems you're trying to solve.
+
+This year, I decided to join the [statistical learning](https://online.stanford.edu/courses/sohs-ystatslearning-statistical-learning-r) online course from **Stanford University**, and it’s been quite fun! I know it’s a classic (especially for analysts who use R), but I hadn’t had the chance to really focus on it until now. 
+
+The very first algorithms introduced in the course are KNN and linear regression — both are pretty interesting, and why not say complementary too?
+
+If you think about it, KNN is one of the simplest modeling concepts out there.
+Imagine asking someone with no data science background to guess the temperature on a specific day of a certain month — and then giving them some past weather data. Chances are, they’d look at similar dates from previous years, take the average of those temperatures, and voilà — we’ve got a prediction!
+
+KNN works in a similar way, right? It takes the closest data points to the one we want to predict and averages them.
+
+Of course, while it’s a powerful technique, it becomes less appropriate when we have multiple predictors. The issue here is that we’re increasing the number of dimensions in our data, and in higher dimensions, the K closest neighbors might not be that close anymore. (This is known as the curse of dimensionality). 
+
+Besides that, there’s also a problem near the edges of the data. Imagine we want to predict the temperature of a day that’s going to be very hot — let’s say 30°C — in a city that rarely sees such temperatures. If we rely on previous years for this prediction, we might be near the edge of the available data, and the average would likely pull our prediction down.
+
+Check the intuition below:
+
+```{r, echo = TRUE}
+set.seed( 50 )
+temperatures <- rnorm( n = 10, mean = 20, sd = 5 )
+```
+
+Here, I basically generated 10 random temperature values with a mean of 20 and standard deviation of 5. And let’s say this is our information to make the average — naturally, we will get the most extreme values from it (here I’m using the top 3):
+
+```{r, echo = TRUE}
+round( mean( sort( temperatures )[ 8:10 ] ) )
+```
+
+But, as you can see, our prediction using KNN with K = 3 is not even close to 30.
+
+It turns out that our average is making the forecast worse in edge cases — using the highest value from our data, for example, would actually reduce the error. So, we tend to have bigger mistakes at the borders of our data when using this algorithm.
+
+That’s the reason why Ordinary Least Squares might help us — it reduces error in edge cases because linear regression doesn’t suffer from the same problem.
+
+Fortunately, there are packages that implement this idea. Here, I’m going to do that using the `qeLinKNN` function from the [`qeML`](https://cran.r-project.org/web/packages/qeML/index.html) package.
+
+## Exploring Data
+
+I choose a small data set from R that contains records of the growth of orange trees 🍊:
+
+```{r}
+reactable( Orange, defaultPageSize = 5 )
+```
+
+```{r, echo = TRUE}
+data.frame( sapply( Orange, range ) ); sapply( Orange, class )
+```
+
+```{r, echo = TRUE}
+sapply( Orange[, 1:2 ], function( x ) length( unique( x ) ) )
+```
+
+So, there are 5 distinct trees and 7 different ages analyzed for each species, while the circumference is a continuous variable. Let’s plot it before jumping into modeling.
+
+```{r, fig.height = 5}
+data.frame( Orange ) %>%
+  mutate( Tree = factor( Tree, levels = c( "1", "2", "3", "4", "5" ) ) ) %>%
+  ggplot( aes( circumference, age, color = Tree ) ) +
+  geom_point( ) +
+  geom_line( linewidth = 2, alpha = 0.5 ) +
+  scale_color_manual( values = c( "1" = "#ff6f91" , "2" = "#2c2240", "3" = "#a17ee6", "4" = "#37dbfa", "5" = "#258faa" ) ) +
+  theme_minimal( ) +
+  theme( legend.position = "none",
+         plot.title = ggtext::element_textbox_simple( size = rel( 1.5 ),
+                                                      face = "bold",
+                                                      family = "Gill Sans",
+                                                      lineheight = 1.2,
+                                                      margin = margin( 1, 0.5, 0.5, 0.5, "lines") )
+         ) +
+  labs( x = NULL, y = NULL, title = "Tree Circunference by Age", subtitle = "" ) +
+  ggtext::geom_textbox( data = filter( Orange, age == max( age ) ),
+                        aes( label = Tree ), family = "Sans", size = 4,
+                        fontface = "bold", hjust = 0.06, vjust = 0.12, 
+                        fill = NA, box.colour = NA )
+ 
+```
+Apparently there is a linear relationship going on here, which might go in favor to the OLS fit. Lets check it out!
+
+## Model
+
+The goal here is to predict Circumference based on the variables age and Tree.
+To evaluate model performance, I’ll use repeated holdout validation — calculating the MAPE (Mean Absolute Prediction Error) for each run. This helps reduce the impact of randomness in a single train/test split.
+
+Since this is a small dataset, I’ll set k = 3 for the KNN-based models.
+
+Now, let’s compare the models:
+
+```{r, echo = TRUE}
+qeCompare( data.frame( Orange ), y = 'circumference', 
+           c( 'qeKNN', 'qeLin', 'qeLinKNN' ),
+           opts = list( qeKNN = list( k = 3 ), qeLinKNN = list( k = 3 ) ),
+           nReps = 10 )
+```
+The function above runs each model across 10 different holdout sets, calculates the MAPE for each, and returns the average. Based on the results, we can say the hybrid model delivers the best performance.
+
+## Conclusion
+
+As expected from the plot, the data appears to follow a linear pattern — so linear regression is definitely a solid choice. However, the hybrid model still managed to outperform the others, showing that combining techniques can be powerful even in seemingly linear scenarios.
+
+That’s it! I just wanted to explore a few things I’ve been studying — and it was a real pleasure to write this one.
+
