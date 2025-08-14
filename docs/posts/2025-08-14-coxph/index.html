@@ -2530,10 +2530,10 @@ d-appendix d-footnote-list a.footnote-backlink {
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>[1] &quot;Mean C-index across 5 folds: 0.634&quot;</code></pre>
-<pre><code>[1] &quot;Standard Deviation of C-index: 0.046&quot;</code></pre>
+<pre><code>[1] &quot;Mean C-index across 5 folds: 0.684&quot;</code></pre>
+<pre><code>[1] &quot;Standard Deviation of C-index: 0.062&quot;</code></pre>
 </div>
-<p>A C-index of 0.63 indicates that the model has decent discriminatory power, correctly predicting which of a pair of subscribers is at a higher risk of churning approximately 63`% of the time. While this score is better than random chance (0.5), it suggests that adding more user characteristics that impact churn possibly would improve the model’s predictive ability. In a real-world scenario, I would prioritize improving this power.</p>
+<p>A C-index of 0.68 indicates that the model has decent discriminatory power, correctly predicting which of a pair of subscribers is at a higher risk of churning approximately 68`% of the time. While this score is better than random chance (0.5), it suggests that adding more user characteristics that impact churn possibly would improve the model’s predictive ability. In a real-world scenario, I would prioritize improving this power.</p>
 <h2 id="final-model">Final Model:</h2>
 <p>Therefore, I ran the model for the whole data in order to analyze the variables coefficients (in other words identify what is causing churn):</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2541,39 +2541,39 @@ d-appendix d-footnote-list a.footnote-backlink {
 coxph(formula = Surv(eventtime, churn_event) ~ subscription_tier_factor + 
     content_rating + weekly_active_hours, data = sim_data_final)
 
-  n= 500, number of events= 106 
+  n= 500, number of events= 105 
 
                                     coef exp(coef) se(coef)      z
-subscription_tier_factorPro      0.08116   1.08455  0.28026  0.290
-subscription_tier_factorPremium  0.86251   2.36909  0.24132  3.574
-content_rating                  -0.38122   0.68303  0.21880 -1.742
-weekly_active_hours             -0.07230   0.93025  0.02454 -2.947
+subscription_tier_factorPro      0.73705   2.08976  0.29642  2.487
+subscription_tier_factorPremium  1.47474   4.36990  0.27209  5.420
+content_rating                  -0.89303   0.40942  0.19573 -4.563
+weekly_active_hours             -0.06238   0.93953  0.02561 -2.435
                                 Pr(&gt;|z|)    
-subscription_tier_factorPro     0.772121    
-subscription_tier_factorPremium 0.000351 ***
-content_rating                  0.081447 .  
-weekly_active_hours             0.003211 ** 
+subscription_tier_factorPro       0.0129 *  
+subscription_tier_factorPremium 5.96e-08 ***
+content_rating                  5.05e-06 ***
+weekly_active_hours               0.0149 *  
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
                                 exp(coef) exp(-coef) lower .95
-subscription_tier_factorPro        1.0845     0.9220    0.6262
-subscription_tier_factorPremium    2.3691     0.4221    1.4763
-content_rating                     0.6830     1.4641    0.4448
-weekly_active_hours                0.9303     1.0750    0.8866
+subscription_tier_factorPro        2.0898     0.4785    1.1689
+subscription_tier_factorPremium    4.3699     0.2288    2.5637
+content_rating                     0.4094     2.4425    0.2790
+weekly_active_hours                0.9395     1.0644    0.8935
                                 upper .95
-subscription_tier_factorPro        1.8785
-subscription_tier_factorPremium    3.8019
-content_rating                     1.0488
-weekly_active_hours                0.9761
+subscription_tier_factorPro        3.7360
+subscription_tier_factorPremium    7.4486
+content_rating                     0.6009
+weekly_active_hours                0.9879
 
-Concordance= 0.655  (se = 0.025 )
-Likelihood ratio test= 29.17  on 4 df,   p=7e-06
-Wald test            = 29.42  on 4 df,   p=6e-06
-Score (logrank) test = 30.59  on 4 df,   p=4e-06</code></pre>
+Concordance= 0.696  (se = 0.026 )
+Likelihood ratio test= 56.84  on 4 df,   p=1e-11
+Wald test            = 54.5  on 4 df,   p=4e-11
+Score (logrank) test = 58.34  on 4 df,   p=6e-12</code></pre>
 </div>
-<p>Based on the model’s output, a higher subscription tier is a statistically significant factor that increases a subscriber’s risk of churning, while a higher content rating reduces it. Specifically, a Pro-tier subscriber has a churn risk that is 8% higher than a Basic-tier subscriber, and a Premium-tier subscriber’s risk is 137% higher. For every one-point increase in a subscriber’s content rating, the risk of churning decreases by approximately 32% (0.683).
-Weekly active hours were a statistically significant predictor of churn. For every one-hour increase, the risk of churning decreases by approximately 7%. (p = 0.003)</p>
+<p>Based on the model’s output, a higher subscription tier is a statistically significant factor that increases a subscriber’s risk of churning, while a higher content rating reduces it. Specifically, a Pro-tier subscriber has a churn risk that is 109% higher than a Basic-tier subscriber, and a Premium-tier subscriber’s risk is 337% higher. For every one-point increase in a subscriber’s content rating, the risk of churning decreases by approximately 59% (0.4094).
+Weekly active hours were a statistically significant predictor of churn. For every one-hour increase, the risk of churning decreases by approximately 6%. (p = 0.015)</p>
 <p>With this model now it is possible to calculate a churn score for each customer, which can be used to prioritize retention efforts. Subscribers with higher churn scores are at greater risk of leaving the streaming service, allowing for targeted interventions to improve their experience and reduce churn.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>While the model’s results were a direct reflection of the simulated data, the primary objective of this post was to explore the statistical methodology itself. It was clear that this is a useful approach for generating insights from covariates by quantifying the influence of various factors on churn, which enables more informed and impactful decision-making.</p>
