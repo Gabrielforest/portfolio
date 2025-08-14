@@ -1,0 +1,205 @@
+---
+title: "CoxPH"
+description: |
+  Proportional Hazard Model on Simulated Data
+author:
+  - name: Gabriel de Freitas Pereira
+    url: {}
+date: 2025-12-14
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+library( simsurv ) # simulate survival data
+library( survival ) # model
+library( ggsurvfit )
+library( tidyverse )
+library( caret )   
+options( prompt = "Ⓐ ")   
+
+# overall Options
+options( bitmapType = "cairo", echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center' )
+knitr::opts_chunk$set( dev = "ragg_png", echo = FALSE )
+```
+
+Hi there!
+
+I recently came across the subject of Survival Analysis while taking the [statistical learning](https://online.stanford.edu/courses/sohs-ystatslearning-statistical-learning-r) online course from **Stanford University**. This inspired me to practice what I learned, as it's a skill I can apply for different purposes. Besides being impactful, it's also a surprisingly fun and insightful area of study. So, without further ado...
+
+## Analysis Structure
+
+The visualization below represents the survival analysis framework that I used to model subscription cancellation risk within a streaming service. It depicts how key predictors such as subscription tier, content rating and weekly active hours can be used to model the risk over time via the proportional hazards model.
+
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px"src="https://lucid.app/documents/embedded/889b05c4-b2fd-4a17-a6eb-ba8b7307f1ab" id="syGGuIcDEVn3"></iframe></div>
+
+\ 
+
+Below, I am simulating survival data for subscribers. The event of interest is cancellation, modeled using the Weibull hazard function and its corresponding survival function.
+
+- $h(t|X) = \lambda \gamma t^{\gamma - 1} \exp(\beta X)$
+
+- $S(t|X) = \exp(-\lambda t^{\gamma} \exp(\beta X))$
+
+The hazard function is the mathematical core that determines the time to the event, while the survival function is a direct consequence of this that is used to determine if an observation is censored.
+
+Where:
+
+$h(t|X)$: The hazard function of the Weibull model. It represents the instantaneous probability of cancellation occurring at time $t$ for a subscriber with a specific set of characteristics $X$.
+
+$S(t|X)$: The survival function of the Weibull model. It represents the probability of a subscriber surviving (not churning) beyond time $t$, given their characteristics $X$.
+
+$\lambda$(lambda): This is the scale parameter. It determines the overall baseline risk of churning when all other variables are zero. A larger $\lambda$ means a higher risk of churning.
+
+$\gamma$(gamma): This is the shape parameter. It controls how the risk of churning changes over time. If $\gamma$=1, the risk is constant; if $\gamma$>1, the risk increases; and if $\gamma$<1, the risk decreases.
+
+$\beta X$: This part of the function represents the predictor variables (X) and their corresponding coefficients ($\beta$). A positive $\beta$ value for a variable increases the risk of churning, and a negative value decreases it.
+
+The survival analysis will help us understand how the predictors influence the likelihood of churn over time.
+
+Since its a simulated data, I am going to control the parameters and the effect of each predictor on the churn probability:
+
+  - `Subscription Tier`: Basic, Pro and Premium (1-3). Higher tiers of subscription are set to increase churn risk (since they might be more critical with the service).
+  - `Content Rating`: Rating from 1-5. Higher ratings given by the user reduce their churn risk. 
+  - `Weekly Active Hours`: Increased service usage is configured to lower the risk of churn.
+  
+Consequently, with an exception of Subscription tier, the predictors were set to have a negative effect on the probability of churn (see the formulas below). The data was simulated for 500 subscribers over a period of 365 days (the specific business product is not relevant here, as the focus is purely on the statistical perspective). Churn events were simulated based on the following predefined hazard function:
+
+```{r}
+n_subscribers <- 500
+
+x_predictors <- data.frame(
+  id = 1:n_subscribers,
+  subscription_tier = sample( 1:3, n_subscribers, replace = TRUE ),
+  content_rating = pmin( 5, rnorm( n_subscribers, 4.0, 0.5 ) ),
+  weekly_active_hours = pmax( 0, rnorm( n_subscribers, 10, 4 ) )
+)
+
+# Define how predictors affect churn
+betas <- c( subscription_tier = 0.5, content_rating = -0.5, weekly_active_hours = -0.05 )
+
+# Simulate survival times and events using the predictor data frame
+sim_data_survival <- simsurv( lambdas = 0.009, gammas = 0.8,
+                              betas = betas,
+                              x = x_predictors, maxt = 365 )
+
+# join to get customer id
+sim_data_final <-
+  sim_data_survival %>%
+  left_join( x_predictors, by = "id" ) %>%
+  mutate( churn_event = as.numeric( status ) )
+
+```
+
+- $h(t|X) = (0.009) \cdot (0.8) \cdot t^{(0.8 - 1)} \cdot \exp(0.5 \cdot \text{subscription tier} - 0.5 \cdot \text{content rating} - 0.05 \cdot \text{weekly active hours})$
+
+- $S(t|X) = \exp\left( - (0.009) \cdot t^{0.8} \cdot \exp(0.5 \cdot \text{subscription tier} - 0.5 \cdot \text{content rating} - 0.05 \cdot \text{weekly active hours}) \right)$
+
+After that it is possible to visualize the survival function for subscribers. The survival function was estimated using the Kaplan-Meier (KM) method, which provides a non-parametric estimate of the survival function based on the observed data. Here I am comparing the survival curves for each subscription tier:
+
+<div style="text-align: center;">
+
+```{r, fig.height = 6}
+
+sim_data_final$subscription_tier_factor <- factor( sim_data_final$subscription_tier, 
+                                                   levels = c( 1, 2, 3 ), labels = c( "Basic", "Pro", "Premium" ) )
+
+survfit( Surv( eventtime, status ) ~ subscription_tier_factor, data = sim_data_final ) %>%
+  ggsurvfit( ) +
+  gabrielf::theme_gabrielf( font = "Gill Sans" ) + 
+  theme( plot.background = element_rect( fill = "white", color = NA ),
+         panel.grid.major.x = element_line( color = "#cbcbcb" ) ) +
+  #add_confidence_interval( ) +
+  #add_risktable( risktable_height = 0.1 ) +
+  theme( plot.title = ggtext::element_textbox_simple( size = rel( 1.9 ),
+                                                      face = "bold",
+                                                      family = "Gill Sans",
+                                                      lineheight = 1.2,
+                                                      margin = margin( 1, 0.5, 0.5, 0.5, "lines") ) 
+         ) +
+  scale_color_manual( labels = c( "Basic", "Pro", "Premium" ), values = c( "#1f77b4", "#ff7f0e", "#2ca02c" ) ) +
+  labs( title = "Survival Function for Customers",
+        ylab = "Survival Probability" ) + 
+  scale_y_continuous( labels = scales::percent_format( accuracy = 1 ) ) 
+
+# Checking proportional Hazards (assumption from the model)
+# If the hazards are proportional across groups, this plot will yield parallel curves:
+
+# survfit( Surv( tenure_days, churn_event ) ~ group, data = sim_data_final ) %>%
+#   ggsurvfit( type = "cloglog" ) +
+#   scale_x_continuous( transform = "log" )
+
+```
+
+</div>
+
+Based on the KM curve, the survival probability for subscribers in higher-tier categories **apparently** is lower, which aligns with the positive parameter I set to model the effect of increased cost and higher user criticality on churn risk.
+
+Of course the differences between tiers might or might not be statistically significant and I am going to use the model later to check on this observational insight. 
+
+## Cox Proportional Hazards Model
+
+Proceeding with the analysis, I decided to run a Cox proportional hazards model to measure the impact of each variable on the churn event. Before fitting the final model, I validated its performance using 5-fold cross-validation, a powerful technique that splits our data into five subsets. The model was trained on four of these subsets and then tested on the fifth, with this process repeating five times, so every subset served as a test set once. This approach was crucial to get an unbiased estimate of the model's predictive power on unseen subscribers. 
+
+The metric used was the Concordance Index (C-index), which reliably measures the model's ability to correctly rank customers by their risk of churn. The C-index works by evaluating pairs of subscribers and checking if the model correctly predicts which one is at a higher risk of churn, similar to an accuracy metric, but specifically designed to handle censored data. By averaging the C-index across all five folds, we get a true sense of how the churn score is likely to perform in a real-world scenario.
+
+```{r}
+# K-Fold Cross-Validation for Cox Model
+k_folds <- 5 
+set.seed( 456 )
+
+# this function from caret already stratifies each fold based on y - so we dont have unbalanced folds
+folds <- createFolds( y = sim_data_final$status, k = k_folds, list = TRUE, returnTrain = FALSE )
+
+# to store C-index for each fold
+c_indices <- numeric( k_folds )
+
+for ( i in 1:k_folds ) {
+  test_indices <- folds[[i]]
+  train_data <- sim_data_final[ -test_indices, ]
+  test_data <- sim_data_final[ test_indices, ]
+  
+  # Fit Cox Proportional Hazards model on the training data
+  cox_model <- coxph( Surv( eventtime, churn_event ) ~ subscription_tier_factor + content_rating + weekly_active_hours, data = train_data )   
+  
+  # Calculate Concordance Index (C-index) on the test data using the 'concordance' function from the 'survival' package
+  # This measures the model's discriminative ability on unseen data
+  c_index_result <- concordance( cox_model, newdata = test_data )
+  c_indices[i] <- c_index_result$concordance
+  
+  message( paste0( "  Fold ", i, " C-index: ", round( c_indices[i], 3 ) ) )
+}
+
+```
+
+```{r}
+# Evaluate Cross-Validation Results
+mean_c_index <- mean( c_indices )
+sd_c_index <- sd( c_indices )
+
+paste0( "Mean C-index across ", k_folds, " folds: ", round( mean_c_index, 3 ) )
+paste0( "Standard Deviation of C-index: ", round( sd_c_index, 3 ) ) 
+```
+
+A C-index of `r round( mean_c_index , 2)` indicates that the model has decent discriminatory power, correctly predicting which of a pair of subscribers is at a higher risk of churning approximately `r round( mean_c_index , 2) * 100``% of the time. While this score is better than random chance (0.5), it suggests that adding more user characteristics that impact churn possibly would improve the model's predictive ability. In a real-world scenario, I would prioritize improving this power.
+
+## Final Model:
+
+Therefore, I ran the model for the whole data in order to analyze the variables coefficients (in other words identify what is causing churn):
+
+```{r}
+# Fit the final Cox Proportional Hazards model on the entire dataset
+set.seed( 123 )
+final_model <- coxph( Surv( eventtime, churn_event ) ~ subscription_tier_factor + content_rating + weekly_active_hours, data = sim_data_final )
+summary( final_model )
+```
+
+Based on the model's output, a higher subscription tier is a statistically significant factor that increases a subscriber's risk of churning, while a higher content rating reduces it. Specifically, a Pro-tier subscriber has a churn risk that is `r round( ( exp( coef( final_model )["subscription_tier_factorPro"] ) - 1 ) * 100 )`% higher than a Basic-tier subscriber, and a Premium-tier subscriber's risk is `r round( ( exp( coef( final_model )["subscription_tier_factorPremium"] ) - 1 ) * 100 )`% higher. For every one-point increase in a subscriber's content rating, the risk of churning decreases by approximately `r round( ( 1 - exp( coef( final_model )["content_rating"] ) ) * 100 )`% (`r round( exp( coef( final_model )["content_rating"] ), 4 )`). 
+`r if (as.data.frame(coef(summary(final_model)))$'Pr(>|z|)'[4] >= 0.05) { "Weekly active hours were not a statistically significant predictor of churn in this model." } else { paste0("Weekly active hours were a statistically significant predictor of churn. For every one-hour increase, the risk of churning decreases by approximately ", round( ( 1 - exp( coef( final_model )["weekly_active_hours"] ) ) * 100 ), "%.") }` (`r if (as.data.frame(coef(summary(final_model)))$'Pr(>|z|)'[4] >= 0.05) { paste0("p = ", round(as.data.frame(coef(summary(final_model)))$'Pr(>|z|)'[4], 3), "), as its p-value is above the conventional 0.05 threshold.") } else { paste0("p = ", round(as.data.frame(coef(summary(final_model)))$'Pr(>|z|)'[4], 3)) }`)
+
+With this model now it is possible to calculate a churn score for each customer, which can be used to prioritize retention efforts. Subscribers with higher churn scores are at greater risk of leaving the streaming service, allowing for targeted interventions to improve their experience and reduce churn.
+
+## Conclusion
+
+While the model's results were a direct reflection of the simulated data, the primary objective of this post was to explore the statistical methodology itself. It was clear that this is a useful approach for generating insights from covariates by quantifying the influence of various factors on churn, which enables more informed and impactful decision-making.
