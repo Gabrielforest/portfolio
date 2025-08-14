@@ -1550,7 +1550,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="analysis-structure">Analysis Structure</h2>
 <p>The visualization below represents the survival analysis framework that I used to model subscription cancellation risk within a streaming service. It depicts how key predictors such as subscription tier, content rating and weekly active hours can be used to model the risk over time via the proportional hazards model.</p>
 <div style="width: 640px; height: 480px; margin: 10px; position: relative;">
-<iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/889b05c4-b2fd-4a17-a6eb-ba8b7307f1ab" id="syGGuIcDEVn3">
+<iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/2642b924-3f74-4a05-aa8e-ebbb2d7af252" id="DVjHdh2vefxy">
 </iframe>
 </div>
 <p> </p>
@@ -1596,10 +1596,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>[1] &quot;Mean C-index across 5 folds: 0.648&quot;</code></pre>
-<pre><code>[1] &quot;Standard Deviation of C-index: 0.05&quot;</code></pre>
+<pre><code>[1] &quot;Mean C-index across 5 folds: 0.634&quot;</code></pre>
+<pre><code>[1] &quot;Standard Deviation of C-index: 0.046&quot;</code></pre>
 </div>
-<p>A C-index of 0.65 indicates that the model has decent discriminatory power, correctly predicting which of a pair of subscribers is at a higher risk of churning approximately 65`% of the time. While this score is better than random chance (0.5), it suggests that adding more user characteristics that impact churn possibly would improve the model’s predictive ability. In a real-world scenario, I would prioritize improving this power.</p>
+<p>A C-index of 0.63 indicates that the model has decent discriminatory power, correctly predicting which of a pair of subscribers is at a higher risk of churning approximately 63`% of the time. While this score is better than random chance (0.5), it suggests that adding more user characteristics that impact churn possibly would improve the model’s predictive ability. In a real-world scenario, I would prioritize improving this power.</p>
 <h2 id="final-model">Final Model:</h2>
 <p>Therefore, I ran the model for the whole data in order to analyze the variables coefficients (in other words identify what is causing churn):</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1607,39 +1607,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 coxph(formula = Surv(eventtime, churn_event) ~ subscription_tier_factor + 
     content_rating + weekly_active_hours, data = sim_data_final)
 
-  n= 500, number of events= 114 
+  n= 500, number of events= 106 
 
                                     coef exp(coef) se(coef)      z
-subscription_tier_factorPro      0.07641   1.07940  0.26757  0.286
-subscription_tier_factorPremium  0.97996   2.66434  0.23398  4.188
-content_rating                  -0.66523   0.51415  0.19024 -3.497
-weekly_active_hours             -0.03135   0.96914  0.02186 -1.434
+subscription_tier_factorPro      0.08116   1.08455  0.28026  0.290
+subscription_tier_factorPremium  0.86251   2.36909  0.24132  3.574
+content_rating                  -0.38122   0.68303  0.21880 -1.742
+weekly_active_hours             -0.07230   0.93025  0.02454 -2.947
                                 Pr(&gt;|z|)    
-subscription_tier_factorPro     0.775210    
-subscription_tier_factorPremium 2.81e-05 ***
-content_rating                  0.000471 ***
-weekly_active_hours             0.151547    
+subscription_tier_factorPro     0.772121    
+subscription_tier_factorPremium 0.000351 ***
+content_rating                  0.081447 .  
+weekly_active_hours             0.003211 ** 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
                                 exp(coef) exp(-coef) lower .95
-subscription_tier_factorPro        1.0794     0.9264    0.6389
-subscription_tier_factorPremium    2.6643     0.3753    1.6843
-content_rating                     0.5142     1.9449    0.3541
-weekly_active_hours                0.9691     1.0318    0.9285
+subscription_tier_factorPro        1.0845     0.9220    0.6262
+subscription_tier_factorPremium    2.3691     0.4221    1.4763
+content_rating                     0.6830     1.4641    0.4448
+weekly_active_hours                0.9303     1.0750    0.8866
                                 upper .95
-subscription_tier_factorPro        1.8236
-subscription_tier_factorPremium    4.2146
-content_rating                     0.7465
-weekly_active_hours                1.0116
+subscription_tier_factorPro        1.8785
+subscription_tier_factorPremium    3.8019
+content_rating                     1.0488
+weekly_active_hours                0.9761
 
-Concordance= 0.667  (se = 0.025 )
-Likelihood ratio test= 37.54  on 4 df,   p=1e-07
-Wald test            = 38.39  on 4 df,   p=9e-08
-Score (logrank) test = 40.21  on 4 df,   p=4e-08</code></pre>
+Concordance= 0.655  (se = 0.025 )
+Likelihood ratio test= 29.17  on 4 df,   p=7e-06
+Wald test            = 29.42  on 4 df,   p=6e-06
+Score (logrank) test = 30.59  on 4 df,   p=4e-06</code></pre>
 </div>
-<p>Based on the model’s output, a higher subscription tier is a statistically significant factor that increases a subscriber’s risk of churning, while a higher content rating reduces it. Specifically, a Pro-tier subscriber has a churn risk that is 8% higher than a Basic-tier subscriber, and a Premium-tier subscriber’s risk is 166% higher. For every one-point increase in a subscriber’s content rating, the risk of churning decreases by approximately 49% (0.5142).
-Weekly active hours were not a statistically significant predictor of churn in this model. (p = 0.152), as its p-value is above the conventional 0.05 threshold.)</p>
+<p>Based on the model’s output, a higher subscription tier is a statistically significant factor that increases a subscriber’s risk of churning, while a higher content rating reduces it. Specifically, a Pro-tier subscriber has a churn risk that is 8% higher than a Basic-tier subscriber, and a Premium-tier subscriber’s risk is 137% higher. For every one-point increase in a subscriber’s content rating, the risk of churning decreases by approximately 32% (0.683).
+Weekly active hours were a statistically significant predictor of churn. For every one-hour increase, the risk of churning decreases by approximately 7%. (p = 0.003)</p>
 <p>With this model now it is possible to calculate a churn score for each customer, which can be used to prioritize retention efforts. Subscribers with higher churn scores are at greater risk of leaving the streaming service, allowing for targeted interventions to improve their experience and reduce churn.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>While the model’s results were a direct reflection of the simulated data, the primary objective of this post was to explore the statistical methodology itself. It was clear that this is a useful approach for generating insights from covariates by quantifying the influence of various factors on churn, which enables more informed and impactful decision-making.</p>

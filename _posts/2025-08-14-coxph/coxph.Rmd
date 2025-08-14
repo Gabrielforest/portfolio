@@ -32,7 +32,7 @@ I recently came across the subject of Survival Analysis while taking the [statis
 
 The visualization below represents the survival analysis framework that I used to model subscription cancellation risk within a streaming service. It depicts how key predictors such as subscription tier, content rating and weekly active hours can be used to model the risk over time via the proportional hazards model.
 
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px"src="https://lucid.app/documents/embedded/889b05c4-b2fd-4a17-a6eb-ba8b7307f1ab" id="syGGuIcDEVn3"></iframe></div>
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/2642b924-3f74-4a05-aa8e-ebbb2d7af252" id="DVjHdh2vefxy"></iframe></div>
 
 \ 
 
